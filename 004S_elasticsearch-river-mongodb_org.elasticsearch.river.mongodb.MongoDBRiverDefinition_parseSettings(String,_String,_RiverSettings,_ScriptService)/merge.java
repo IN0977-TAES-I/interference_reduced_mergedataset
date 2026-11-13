@@ -1,0 +1,234 @@
+
+
+
+
+class MongoDBRiverDefinition {
+    void parseSettings_String__String__RiverSettings__ScriptService_() {
+            }
+        }
+        return oplogTimestamp;
+    }
+
+    @SuppressWarnings("unchecked")
+    private void flattenOps(DBObject entry) {
+        Object ref = entry.removeField(MongoDBRiver.OPLOG_REF);
+        Object ops = ref == null ? entry.removeField(MongoDBRiver.OPLOG_OPS) : getRefOps(ref);
+        if (ops != null) {
+            try {
+                for (DBObject op : (List<DBObject>) ops) {
+                    String operation = (String) op.get(MongoDBRiver.OPLOG_OPERATION);
+                    if (operation.equals(MongoDBRiver.OPLOG_COMMAND_OPERATION)) {
+                        DBObject object = (DBObject) op.get(MongoDBRiver.OPLOG_OBJECT);
+                        if (object.containsField(MongoDBRiver.OPLOG_CREATE_COMMAND)) {
+                            continue;
+                        }
+                    }
+                    entry.putAll(op);
+                }
+            } catch (ClassCastException e) {
+                logger.error(e.toString(), e);
+            }
+        }
+    }
+
+    private Object getRefOps(Object ref) {
+
+        DBObject query = new BasicDBObject(MongoDBRiver.MONGODB_ID_FIELD, new BasicDBObject(QueryOperators.GTE,
+                new BasicDBObject(MongoDBRiver.MONGODB_OID_FIELD, ref)));
+        DBObject oplog = oplogRefsCollection.findOne(query);
+        return oplog == null ? null : oplog.get("ops");
+    }
+
+    private void processAdminCommandOplogEntry(final DBObject entry, final Timestamp<?> startTimestamp) throws InterruptedException {
+        if (logger.isTraceEnabled()) {
+            logger.trace("processAdminCommandOplogEntry - [{}]", entry);
+        }
+        DBObject object = (DBObject) entry.get(MongoDBRiver.OPLOG_OBJECT);
+        if (definition.isImportAllCollections()) {
+            if (object.containsField(MongoDBRiver.OPLOG_RENAME_COLLECTION_COMMAND_OPERATION) && object.containsField(MongoDBRiver.OPLOG_TO)) {
+                String to = object.get(MongoDBRiver.OPLOG_TO).toString();
+                if (to.startsWith(definition.getMongoDb())) {
+                    String newCollection = getCollectionFromNamespace(to);
+                    DBCollection coll = slurpedDb.getCollection(newCollection);
+                    doInitialImport(coll);
+                }
+            }
+        }
+    }
+
+    private String getCollectionFromNamespace(String namespace) {
+        if (namespace.startsWith(definition.getMongoDb()) && CharMatcher.is('.').countIn(namespace) == 1) {
+            return namespace.substring(definition.getMongoDb().length() + 1);
+        }
+        logger.error("Cannot get collection from namespace [{}]", namespace);
+        return null;
+    }
+
+    private boolean isValidOplogEntry(final DBObject entry, final Timestamp<?> startTimestamp) {
+        if (!entry.containsField(MongoDBRiver.OPLOG_OPERATION)) {
+            logger.trace("[Empty Oplog Entry] - can be ignored. {}", JSONSerializers.getStrict().serialize(entry));
+            return false;
+        }
+        if (MongoDBRiver.OPLOG_NOOP_OPERATION.equals(entry.get(MongoDBRiver.OPLOG_OPERATION))) {
+            logger.trace("[No-op Oplog Entry] - can be ignored. {}", JSONSerializers.getStrict().serialize(entry));
+            return false;
+        }
+        String namespace = (String) entry.get(MongoDBRiver.OPLOG_NAMESPACE);
+
+
+
+        if (entry.containsField(MongoDBRiver.OPLOG_FROM_MIGRATE) && ((BasicBSONObject) entry).getBoolean(MongoDBRiver.OPLOG_FROM_MIGRATE)) {
+            logger.trace("[Invalid Oplog Entry] - from migration or sharding operation. Can be ignored. {}", JSONSerializers.getStrict().serialize(entry));
+            return false;
+        }
+
+        if (namespace.endsWith(MongoDBRiver.GRIDFS_CHUNKS_SUFFIX)) {
+            return false;
+        }
+
+        if (startTimestamp != null) {
+            Timestamp<?> oplogTimestamp = Timestamp.on(entry);
+            if (Timestamp.compare(oplogTimestamp, startTimestamp) < 0) {
+                logger.error("[Invalid Oplog Entry] - entry timestamp [{}] before startTimestamp [{}]",
+                        JSONSerializers.getStrict().serialize(entry), startTimestamp);
+                return false;
+            }
+        }
+
+        boolean validNamespace = false;
+        if (definition.isMongoGridFS()) {
+            validNamespace = gridfsOplogNamespace.equals(namespace);
+        } else {
+            if (definition.isImportAllCollections()) {
+
+                if (namespace.startsWith(definition.getMongoDb()) && !namespace.startsWith(definition.getMongoDb() + ".tmp.mr")) {
+                    validNamespace = true;
+                }
+            } else {
+                if (definition.getMongoOplogNamespace().equals(namespace)) {
+                    validNamespace = true;
+                }
+            }
+            if (cmdOplogNamespace.equals(namespace)) {
+                validNamespace = true;
+            }
+
+            if (MongoDBRiver.OPLOG_ADMIN_COMMAND.equals(namespace)) {
+                validNamespace = true;
+            }
+        }
+        if (!validNamespace) {
+            logger.trace("[Invalid Oplog Entry] - namespace [{}] is not valid", namespace);
+            return false;
+        }
+        String operation = (String) entry.get(MongoDBRiver.OPLOG_OPERATION);
+        if (!oplogOperations.contains(operation)) {
+            logger.trace("[Invalid Oplog Entry] - operation [{}] is not valid", operation);
+            return false;
+        }
+
+
+        if (definition.getMongoOplogFilter() != null) {
+            DBObject object = (DBObject) entry.get(MongoDBRiver.OPLOG_OBJECT);
+            BasicDBObject filter = definition.getMongoOplogFilter();
+            if (!filterMatch(filter, object)) {
+                logger.trace("[Invalid Oplog Entry] - filter [{}] does not match object [{}]", filter, object);
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean filterMatch(DBObject filter, DBObject object) {
+        for (String key : filter.keySet()) {
+            if (!object.containsField(key)) {
+                return false;
+            }
+            if (!filter.get(key).equals(object.get(key))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private DBObject applyFieldFilter(DBObject object) {
+        if (object instanceof GridFSFile) {
+            GridFSFile file = (GridFSFile) object;
+            DBObject metadata = file.getMetaData();
+            if (metadata != null) {
+                file.setMetaData(applyFieldFilter(metadata));
+            }
+        } else {
+            object = MongoDBHelper.applyExcludeFields(object, definition.getExcludeFields());
+            object = MongoDBHelper.applyIncludeFields(object, definition.getIncludeFields());
+        }
+        return object;
+    }
+
+
+    private String getObjectIdFromOplogEntry(DBObject entry) {
+        if (entry.containsField(MongoDBRiver.OPLOG_OBJECT)) {
+            DBObject object = (DBObject) entry.get(MongoDBRiver.OPLOG_OBJECT);
+            if (object.containsField(MongoDBRiver.MONGODB_ID_FIELD)) {
+                return object.get(MongoDBRiver.MONGODB_ID_FIELD).toString();
+            }
+        }
+        if (entry.containsField(MongoDBRiver.OPLOG_UPDATE)) {
+            DBObject object = (DBObject) entry.get(MongoDBRiver.OPLOG_UPDATE);
+            if (object.containsField(MongoDBRiver.MONGODB_ID_FIELD)) {
+                return object.get(MongoDBRiver.MONGODB_ID_FIELD).toString();
+            }
+        }
+        return null;
+    }
+
+    private DBCursor oplogCursor(final Timestamp<?> timestampOverride) throws SlurperException {
+        Timestamp<?> time = timestampOverride == null ? MongoDBRiver.getLastTimestamp(client, definition) : timestampOverride;
+        if (time == null) {
+            return null;
+        }
+        DBObject indexFilter = time.getOplogFilter();
+        if (indexFilter == null) {
+            return null;
+        }
+
+        int options = Bytes.QUERYOPTION_TAILABLE | Bytes.QUERYOPTION_AWAITDATA | Bytes.QUERYOPTION_NOTIMEOUT
+
+
+                | Bytes.QUERYOPTION_OPLOGREPLAY;
+
+        DBCursor cursor = oplogCollection.find(indexFilter).setOptions(options);
+
+
+        if (indexFilter.containsField(MongoDBRiver.MONGODB_ID_FIELD)) {
+            cursor = cursor.hint("_id_");
+        }
+        isRiverStale(cursor, time);
+        return cursor;
+    }
+
+    private void isRiverStale(DBCursor cursor, Timestamp<?> time) throws SlurperException {
+        if (cursor == null || time == null) {
+            return;
+        }
+        if (definition.getInitialTimestamp() != null && time.equals(definition.getInitialTimestamp())) {
+            return;
+        }
+        DBObject entry = cursor.next();
+        Timestamp<?> oplogTimestamp = Timestamp.on(entry);
+        if (!time.equals(oplogTimestamp)) {
+            MongoDBRiverHelper.setRiverStatus(client, definition.getRiverName(), Status.RIVER_STALE);
+            throw new SlurperException("River out of sync with oplog.rs collection");
+        }
+    }
+
+    private void addQueryToStream(final Operation operation, final Timestamp<?> currentTimestamp, final DBObject update,
+            final String collection) throws InterruptedException {
+        if (logger.isTraceEnabled()) {
+            logger.trace("addQueryToStream - operation [{}], currentTimestamp [{}], update [{}]", operation, currentTimestamp, update);
+        }
+
+        if (collection == null) {
+            for (String name : slurpedDb.getCollectionNames()) {
+    }
+}

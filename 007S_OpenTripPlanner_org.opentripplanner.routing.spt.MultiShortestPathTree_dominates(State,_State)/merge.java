@@ -1,0 +1,28 @@
+class MultiShortestPathTree {
+    void dominates_State__State_() {
+        if (thisState.isBikeParked() != other.isBikeParked())
+            return false;
+
+        if (thisState.backEdge != other.getBackEdge() && ((thisState.backEdge instanceof StreetEdge)
+                && (!((StreetEdge) thisState.backEdge).getTurnRestrictions().isEmpty())))
+            return false;
+
+        if (thisState.routeSequenceSubset(other)) {
+            return thisState.weight <= other.weight &&
+            		thisState.getElapsedTimeSeconds() <= other.getElapsedTimeSeconds();
+        }
+
+
+        boolean walkDistanceIsHopeful = thisState.walkDistance / other.getWalkDistance() < 1+WALK_DIST_EPSILON;
+
+        double weightRatio = thisState.weight / other.weight;
+        boolean weightIsHopeful = (weightRatio < 1+WEIGHT_EPSILON && thisState.weight - other.weight < WEIGHT_DIFF_MARGIN);
+
+        double t1 = (double)thisState.getElapsedTimeSeconds();
+        double t2 = (double)other.getElapsedTimeSeconds();
+        double timeRatio = t1/t2;
+        boolean timeIsHopeful = (timeRatio < 1+TIME_EPSILON) && (t1 - t2 <= TIME_DIFF_MARGIN);
+
+        return walkDistanceIsHopeful && weightIsHopeful && timeIsHopeful;
+    }
+}
