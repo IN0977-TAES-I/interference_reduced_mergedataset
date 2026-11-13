@@ -1,0 +1,46 @@
+# scenario   : 007S
+# project    : OpenTripPlanner
+# commit     : 4c506dce43775704919d084f0acfba86d251bf4a
+# class name : org.opentripplanner.routing.spt.MultiShortestPathTree
+# method name: dominates(State, State)
+# side       : right (right-left-lines.csv)
+sink@org.opentripplanner.routing.spt.MultiShortestPathTree.dominates(State, State):123: 
+source@org.opentripplanner.routing.spt.MultiShortestPathTree.dominates(State, State):141: 	}
+source@org.opentripplanner.routing.spt.MultiShortestPathTree.dominates(State, State):144:     public State getState(Vertex dest) {
+source@org.opentripplanner.routing.spt.MultiShortestPathTree.dominates(State, State):146:         if (states == null)
+source@org.opentripplanner.routing.spt.MultiShortestPathTree.dominates(State, State):147:             return null;
+source@org.opentripplanner.routing.spt.MultiShortestPathTree.dominates(State, State):148:         State ret = null;
+source@org.opentripplanner.routing.spt.MultiShortestPathTree.dominates(State, State):149:         for (State s : states) {
+source@org.opentripplanner.routing.spt.MultiShortestPathTree.dominates(State, State):152:             }
+
+# same region in merge.java (scenario update):
+merge:123:         if (thisState.isBikeParked() != other.isBikeParked())
+merge:124:             return false;
+merge:125: 
+merge:126:         if (thisState.backEdge != other.getBackEdge() && ((thisState.backEdge instanceof StreetEdge)
+merge:127:                 && (!((StreetEdge) thisState.backEdge).getTurnRestrictions().isEmpty())))
+merge:128:             return false;
+merge:129: 
+merge:130:         if (thisState.routeSequenceSubset(other)) {
+merge:131:             // TODO subset is not really the right idea
+merge:132:             return thisState.weight <= other.weight &&
+merge:133:             		thisState.getElapsedTimeSeconds() <= other.getElapsedTimeSeconds();
+merge:134:             // && this.getNumBoardings() <= other.getNumBoardings();
+merge:135:         }
+merge:136: 
+merge:137:         // If returning more than one result from GenericAStar, the search can be very slow
+merge:138:         // unless you replace the following code with:
+merge:139:         // return false;
+merge:140:         
+merge:141:         boolean walkDistanceIsHopeful = thisState.walkDistance / other.getWalkDistance() < 1+WALK_DIST_EPSILON;
+merge:142:         
+merge:143:         double weightRatio = thisState.weight / other.weight;
+merge:144:         boolean weightIsHopeful = (weightRatio < 1+WEIGHT_EPSILON && thisState.weight - other.weight < WEIGHT_DIFF_MARGIN);
+merge:145:         
+merge:146:         double t1 = (double)thisState.getElapsedTimeSeconds();
+merge:147:         double t2 = (double)other.getElapsedTimeSeconds();
+merge:148:         double timeRatio = t1/t2;
+merge:149:         boolean timeIsHopeful = (timeRatio < 1+TIME_EPSILON) && (t1 - t2 <= TIME_DIFF_MARGIN);
+merge:150:         
+merge:151:         // only dominate if everything is at least hopeful
+merge:152:         return walkDistanceIsHopeful && weightIsHopeful && timeIsHopeful;

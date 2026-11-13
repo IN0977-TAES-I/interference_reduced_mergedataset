@@ -1,0 +1,22 @@
+# class name : com.squareup.moshi.ClassJsonAdapter
+# method name: FACTORY
+# variables referenced in the affected region:
+Annotation	external/inherited	roles=sink
+Modifier	external/inherited	roles=sink
+Types	external/inherited	roles=source
+Util	external/inherited	roles=source
+annotation	external/inherited	roles=sink
+annotations	declared-in-file	roles=source
+rawType	declared-in-file	roles=source,sink
+type	external/inherited	roles=source
+
+# per-line detail:
+source:58	Util,rawType,Types,rawType
+source:60	type,annotations
+sink:75	Modifier,rawType
+sink:76	rawType
+sink:77	
+sink:78	Annotation,annotation,rawType
+sink:79	annotation
+sink:80	rawType
+sink:81	

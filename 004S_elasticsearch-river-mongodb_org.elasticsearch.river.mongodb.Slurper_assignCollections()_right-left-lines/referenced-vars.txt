@@ -1,0 +1,31 @@
+# class name : org.elasticsearch.river.mongodb.Slurper
+# method name: assignCollections()
+# variables referenced in the affected region:
+CommandResult	external/inherited	roles=source
+DB	external/inherited	roles=source
+MongoDBRiver	external/inherited	roles=source
+adminDb	declared-in-file	roles=source
+cmd	declared-in-file	roles=source
+definition	declared-in-file	roles=source,sink
+logger	declared-in-file	roles=source
+mongo	declared-in-file	roles=source
+oplogDb	declared-in-file	roles=source,sink
+slurpedDb	declared-in-file	roles=source
+
+# per-line detail:
+source:286	DB,adminDb,mongo,MongoDBRiver
+source:287	oplogDb,mongo,MongoDBRiver
+source:288	
+source:289	definition,definition
+source:290	logger,MongoDBRiver,definition
+source:291	
+source:292	CommandResult,cmd,adminDb,definition,definition
+source:293	
+source:294	cmd
+source:295	logger,MongoDBRiver,cmd
+source:297	
+source:298	
+sink:302	definition,definition,oplogDb
+sink:315	
+source:322	slurpedDb,adminDb,definition
+sink:331	

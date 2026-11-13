@@ -1,0 +1,30 @@
+# class name : edu.uci.ics.crawler4j.parser.Parser
+# method name: parse(Page,String)
+# variables referenced in the affected region:
+LanguageIdentifier	external/inherited	roles=sink
+TextParseData	external/inherited	roles=source
+Util	external/inherited	roles=source
+config	declared-in-file	roles=sink
+languageIdentifier	declared-in-file	roles=sink
+logger	declared-in-file	roles=source,sink
+net	declared-in-file	roles=source,sink
+page	external/inherited	roles=source
+parseData	declared-in-file	roles=source,sink
+parsedData	declared-in-file	roles=sink
+
+# per-line detail:
+sink:72	config
+sink:73	
+sink:75	logger
+sink:85	parseData,net,parseData
+source:89	Util,page
+source:91	TextParseData,parseData
+source:92	page
+source:93	parseData,page
+source:95	parseData
+source:96	page,page
+source:98	parseData,net,parseData
+source:99	page,parseData
+source:101	logger,page
+source:102	
+sink:113	LanguageIdentifier,languageIdentifier,parsedData

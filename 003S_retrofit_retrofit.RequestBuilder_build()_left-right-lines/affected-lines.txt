@@ -1,0 +1,26 @@
+# scenario   : 003S
+# project    : retrofit
+# commit     : 71f622ce51031b152a0be6ad5facfb27a654bf5a
+# class name : retrofit.RequestBuilder
+# method name: build()
+# side       : left (left-right-lines.csv)
+sink@retrofit.RequestBuilder.build():88:         url.append('?').append(requestQuery);
+source@retrofit.RequestBuilder.build():95:           String value = URLEncoder.encode(String.valueOf(args[i]), "UTF-8");
+source@retrofit.RequestBuilder.build():96:           url.append(first ? '?' : '&').append(query).append('=').append(value);
+source@retrofit.RequestBuilder.build():97:           first = false;
+source@retrofit.RequestBuilder.build():100:     }
+
+# same region in merge.java (scenario update):
+merge:88:         url.append('?').append(requestQuery);
+merge:89:         first = false;
+merge:90:       }
+merge:91:       String[] requestQueryName = methodInfo.requestQueryName;
+merge:92:       for (int i = 0; i < requestQueryName.length; i++) {
+merge:93:         String query = requestQueryName[i];
+merge:94:         if (query != null) {
+merge:95:           Object arg = args[i];
+merge:96:           if (arg != null) { // Null values are skipped.
+merge:97:             String value = URLEncoder.encode(String.valueOf(arg), "UTF-8");
+merge:98:             url.append(first ? '?' : '&').append(query).append('=').append(value);
+merge:99:             first = false;
+merge:100:           }

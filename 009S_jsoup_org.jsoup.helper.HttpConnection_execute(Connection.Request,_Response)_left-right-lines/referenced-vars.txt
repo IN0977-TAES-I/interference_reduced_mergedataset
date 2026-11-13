@@ -1,0 +1,15 @@
+# class name : org.jsoup.helper.HttpConnection
+# method name: execute(Connection.Request, Response)
+# variables referenced in the affected region:
+DataUtil	external/inherited	roles=sink
+bodyStream	declared-in-file	roles=sink
+location	declared-in-file	roles=source
+req	declared-in-file	roles=source,sink
+res	declared-in-file	roles=sink
+
+# per-line detail:
+source:544	req
+source:547	location,location,location
+sink:584	
+sink:585	res,DataUtil,bodyStream,req
+sink:586	

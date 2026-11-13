@@ -1,0 +1,11 @@
+# class name : io.cloudslang.lang.api.SlangImpl
+# method name: getAllEventTypes()
+# variables referenced in the affected region:
+ScoreLangConstants	external/inherited	roles=source,sink
+eventTypes	declared-in-file	roles=source,sink
+
+# per-line detail:
+sink:116	eventTypes,ScoreLangConstants
+source:123	eventTypes,ScoreLangConstants
+source:124	eventTypes,ScoreLangConstants
+source:125	eventTypes,ScoreLangConstants

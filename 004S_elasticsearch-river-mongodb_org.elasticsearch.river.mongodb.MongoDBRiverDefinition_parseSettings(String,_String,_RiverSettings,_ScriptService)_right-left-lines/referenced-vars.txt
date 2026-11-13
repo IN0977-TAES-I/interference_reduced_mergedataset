@@ -1,0 +1,31 @@
+# class name : org.elasticsearch.river.mongodb.MongoDBRiverDefinition
+# method name: parseSettings(String, String, RiverSettings, ScriptService)
+# variables referenced in the affected region:
+Bytes	external/inherited	roles=sink
+MongoDBRiver	external/inherited	roles=sink
+cmdOplogNamespace	declared-in-file	roles=sink
+collection	declared-in-file	roles=source
+cursor	declared-in-file	roles=source
+definition	declared-in-file	roles=source
+filter	declared-in-file	roles=sink
+key	external/inherited	roles=sink
+logger	declared-in-file	roles=source
+namespace	declared-in-file	roles=sink
+object	declared-in-file	roles=sink
+operation	declared-in-file	roles=sink
+time	declared-in-file	roles=source
+
+# per-line detail:
+sink:490	operation,MongoDBRiver
+sink:515	
+sink:576	
+sink:582	cmdOplogNamespace,namespace
+sink:617	filter,key,object,key
+sink:635	object
+sink:670	Bytes
+source:683	cursor,time
+source:686	definition,time,definition
+source:699	logger
+source:703	collection
+source:714	
+source:717	

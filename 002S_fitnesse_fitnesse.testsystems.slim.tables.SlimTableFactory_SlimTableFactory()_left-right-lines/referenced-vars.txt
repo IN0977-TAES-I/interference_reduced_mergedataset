@@ -1,0 +1,10 @@
+# class name : fitnesse.testsystems.slim.tables.SlimTableFactory
+# method name: SlimTableFactory()
+# variables referenced in the affected region:
+DynamicDecisionTable	external/inherited	roles=sink
+ScenarioTable	external/inherited	roles=source
+
+# per-line detail:
+sink:24	DynamicDecisionTable
+sink:25	DynamicDecisionTable
+source:31	ScenarioTable

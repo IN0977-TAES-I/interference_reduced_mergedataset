@@ -1,0 +1,56 @@
+# scenario   : 009S
+# project    : jsoup
+# commit     : a8b6982de98ff76ef254031d7152fff57f6bf941
+# class name : org.jsoup.helper.HttpConnection
+# method name: execute(Connection.Request, Response)
+# side       : right (right-left-lines.csv)
+sink@org.jsoup.helper.HttpConnection.execute(Connection.Request, Response):544:                 if (contentType != null
+sink@org.jsoup.helper.HttpConnection.execute(Connection.Request, Response):547:                         && !xmlContentTypeRxp.matcher(contentType).matches()
+source@org.jsoup.helper.HttpConnection.execute(Connection.Request, Response):584:             res.executed = true;
+source@org.jsoup.helper.HttpConnection.execute(Connection.Request, Response):585:             return res;
+source@org.jsoup.helper.HttpConnection.execute(Connection.Request, Response):586:         }
+
+# same region in merge.java (scenario update):
+merge:544:                     if (status != HTTP_TEMP_REDIR) {
+merge:545:                         req.method(Method.GET); // always redirect with a get. any data param from original req are dropped.
+merge:546:                         req.data().clear();
+merge:547:                     }
+merge:548: 
+merge:549:                     String location = res.header(LOCATION);
+merge:550:                     if (location != null && location.startsWith("http:/") && location.charAt(6) != '/') // fix broken Location: http:/temp/AAG_New/en/index.php
+merge:551:                         location = location.substring(6);
+merge:552:                     req.url(StringUtil.resolve(req.url(), encodeUrl(location)));
+merge:553: 
+merge:554:                     for (Map.Entry<String, String> cookie : res.cookies.entrySet()) { // add response cookies to request (for e.g. login posts)
+merge:555:                         req.cookie(cookie.getKey(), cookie.getValue());
+merge:556:                     }
+merge:557:                     return execute(req, res);
+merge:558:                 }
+merge:559:                 if ((status < 200 || status >= 400) && !req.ignoreHttpErrors())
+merge:560:                         throw new HttpStatusException("HTTP error fetching URL", status, req.url().toString());
+merge:561: 
+merge:562:                 // check that we can handle the returned content type; if not, abort before fetching it
+merge:563:                 String contentType = res.contentType();
+merge:564:                 if (contentType != null
+merge:565:                         && !req.ignoreContentType()
+merge:566:                         && !contentType.startsWith("text/")
+merge:567:                         && !xmlContentTypeRxp.matcher(contentType).matches()
+merge:568:                         )
+merge:569:                     throw new UnsupportedMimeTypeException("Unhandled content type. Must be text/*, application/xml, or application/xhtml+xml",
+merge:570:                             contentType, req.url().toString());
+merge:571: 
+merge:572:                 // switch to the XML parser if content type is xml and not parser not explicitly set
+merge:573:                 if (contentType != null && xmlContentTypeRxp.matcher(contentType).matches()) {
+merge:574:                     // only flip it if a HttpConnection.Request (i.e. don't presume other impls want it):
+merge:575:                     if (req instanceof HttpConnection.Request && !((Request) req).parserDefined) {
+merge:576:                         req.parser(Parser.xmlParser());
+merge:577:                     }
+merge:578:                 }
+merge:579: 
+merge:580:                 res.charset = DataUtil.getCharsetFromContentType(res.contentType); // may be null, readInputStream deals with it
+merge:581:                 if (conn.getContentLength() != 0) { // -1 means unknown, chunked. sun throws an IO exception on 500 response with no content when trying to read body
+merge:582:                     InputStream bodyStream = null;
+merge:583:                     try {
+merge:584:                         bodyStream = conn.getErrorStream() != null ? conn.getErrorStream() : conn.getInputStream();
+merge:585:                         if (res.hasHeaderWithValue(CONTENT_ENCODING, "gzip"))
+merge:586:                             bodyStream = new GZIPInputStream(bodyStream);

@@ -1,0 +1,19 @@
+# scenario   : 002S
+# project    : fitnesse
+# commit     : 4d9ba9d221d879507440feb084fa7521b95111ec
+# class name : fitnesse.testsystems.slim.tables.SlimTableFactory
+# method name: SlimTableFactory()
+# side       : right (right-left-lines.csv)
+source@fitnesse.testsystems.slim.tables.SlimTableFactory.SlimTableFactory():24:     addTableType("ordered query:", OrderedQueryTable.class);
+source@fitnesse.testsystems.slim.tables.SlimTableFactory.SlimTableFactory():25:     addTableType("subset query:", SubsetQueryTable.class);
+sink@fitnesse.testsystems.slim.tables.SlimTableFactory.SlimTableFactory():31:     addTableType("import", ImportTable.class);
+
+# same region in merge.java (scenario update):
+merge:24:     addTableType("ddt:", DynamicDecisionTable.class);
+merge:25:     addTableType("dynamic decision:", DynamicDecisionTable.class);
+merge:26:     addTableType("ordered query:", OrderedQueryTable.class);
+merge:27:     addTableType("subset query:", SubsetQueryTable.class);
+merge:28:     addTableType("query:", QueryTable.class);
+merge:29:     addTableType("table:", TableTable.class);
+merge:30:     addTableType("script", ScriptTable.class);
+merge:31:     addTableType("script:", ScriptTable.class);

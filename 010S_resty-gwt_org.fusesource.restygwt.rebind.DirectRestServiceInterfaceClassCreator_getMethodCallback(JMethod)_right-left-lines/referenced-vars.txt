@@ -1,0 +1,17 @@
+# class name : org.fusesource.restygwt.rebind.DirectRestServiceInterfaceClassCreator
+# method name: getMethodCallback(JMethod)
+# variables referenced in the affected region:
+String	external/inherited	roles=sink
+method	external/inherited	roles=source,sink
+returnType	declared-in-file	roles=sink
+
+# per-line detail:
+source:83	method
+source:84	
+source:85	
+sink:86	String,returnType,method
+sink:87	method
+sink:88	returnType
+sink:89	
+sink:90	returnType
+sink:91	

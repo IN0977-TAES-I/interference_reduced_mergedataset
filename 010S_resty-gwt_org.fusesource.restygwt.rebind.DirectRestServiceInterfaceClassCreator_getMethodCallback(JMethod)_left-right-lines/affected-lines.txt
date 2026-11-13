@@ -1,0 +1,26 @@
+# scenario   : 010S
+# project    : resty-gwt
+# commit     : 867b917c43c32acbdcac55767e7f04334006c866
+# class name : org.fusesource.restygwt.rebind.DirectRestServiceInterfaceClassCreator
+# method name: getMethodCallback(JMethod)
+# side       : left (left-right-lines.csv)
+sink@org.fusesource.restygwt.rebind.DirectRestServiceInterfaceClassCreator.getMethodCallback(JMethod):83:             return "org.fusesource.restygwt.client.MethodCallback<" + primitiveType.getQualifiedBoxedSourceName() + "> callback";
+sink@org.fusesource.restygwt.rebind.DirectRestServiceInterfaceClassCreator.getMethodCallback(JMethod):84:         }
+sink@org.fusesource.restygwt.rebind.DirectRestServiceInterfaceClassCreator.getMethodCallback(JMethod):85:         return "org.fusesource.restygwt.client.MethodCallback<" + method.getReturnType().getParameterizedQualifiedSourceName() + "> callback";
+source@org.fusesource.restygwt.rebind.DirectRestServiceInterfaceClassCreator.getMethodCallback(JMethod):86:     }
+source@org.fusesource.restygwt.rebind.DirectRestServiceInterfaceClassCreator.getMethodCallback(JMethod):87: 
+source@org.fusesource.restygwt.rebind.DirectRestServiceInterfaceClassCreator.getMethodCallback(JMethod):88:     private String getAnnotationsAsString(Annotation[] annotations) {
+source@org.fusesource.restygwt.rebind.DirectRestServiceInterfaceClassCreator.getMethodCallback(JMethod):89:         StringBuilder result = new StringBuilder("");
+source@org.fusesource.restygwt.rebind.DirectRestServiceInterfaceClassCreator.getMethodCallback(JMethod):90:         OnceFirstIterator<String> space = new OnceFirstIterator<String>("", " ");
+source@org.fusesource.restygwt.rebind.DirectRestServiceInterfaceClassCreator.getMethodCallback(JMethod):91: 
+
+# same region in merge.java (scenario update):
+merge:83:         if (method.getReturnType().isPrimitive() != null) {
+merge:84:             JPrimitiveType primitiveType = method.getReturnType().isPrimitive();
+merge:85:             return "org.fusesource.restygwt.client.MethodCallback<" + primitiveType.getQualifiedBoxedSourceName() + "> callback";
+merge:86:         }
+merge:87:         final String returnType = method.getReturnType().getParameterizedQualifiedSourceName();
+merge:88:         if (isOverlayMethod(method)) {
+merge:89:             return "org.fusesource.restygwt.client.OverlayCallback<" + returnType + "> callback";
+merge:90:         } else {
+merge:91:             return "org.fusesource.restygwt.client.MethodCallback<" + returnType + "> callback";

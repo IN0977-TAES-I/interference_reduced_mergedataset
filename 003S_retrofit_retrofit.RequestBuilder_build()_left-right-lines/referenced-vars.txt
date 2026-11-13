@@ -1,0 +1,18 @@
+# class name : retrofit.RequestBuilder
+# method name: build()
+# variables referenced in the affected region:
+String	external/inherited	roles=source
+URLEncoder	external/inherited	roles=source
+args	declared-in-file	roles=source
+first	declared-in-file	roles=source
+query	declared-in-file	roles=source
+requestQuery	declared-in-file	roles=sink
+url	declared-in-file	roles=source,sink
+value	declared-in-file	roles=source
+
+# per-line detail:
+sink:88	url,requestQuery
+source:95	String,value,URLEncoder,String,args
+source:96	url,first,query,value
+source:97	first
+source:100	

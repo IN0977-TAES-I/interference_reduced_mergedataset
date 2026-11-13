@@ -1,0 +1,10 @@
+# class name : fitnesse.testsystems.slim.tables.SlimTableFactoryTest
+# method name: setUp()
+# variables referenced in the affected region:
+ImportTable	external/inherited	roles=source
+LibraryTable	external/inherited	roles=source
+
+# per-line detail:
+source:31	ImportTable
+source:32	LibraryTable
+sink:38	

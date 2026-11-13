@@ -1,0 +1,70 @@
+# scenario   : 004S
+# project    : elasticsearch-river-mongodb
+# commit     : 3d4f99516ba3177f7d88a1f600923138a8b77cc8
+# class name : org.elasticsearch.river.mongodb.Slurper
+# method name: assignCollections()
+# side       : right (right-left-lines.csv)
+source@org.elasticsearch.river.mongodb.Slurper.assignCollections():286:         DB adminDb = mongo.getDB(MongoDBRiver.MONGODB_ADMIN_DATABASE);
+source@org.elasticsearch.river.mongodb.Slurper.assignCollections():287:         oplogDb = mongo.getDB(MongoDBRiver.MONGODB_LOCAL_DATABASE);
+source@org.elasticsearch.river.mongodb.Slurper.assignCollections():288: 
+source@org.elasticsearch.river.mongodb.Slurper.assignCollections():289:         if (!definition.getMongoAdminUser().isEmpty() && !definition.getMongoAdminPassword().isEmpty()) {
+source@org.elasticsearch.river.mongodb.Slurper.assignCollections():290:             logger.debug("Authenticate {} with {}", MongoDBRiver.MONGODB_ADMIN_DATABASE, definition.getMongoAdminUser());
+source@org.elasticsearch.river.mongodb.Slurper.assignCollections():291: 
+source@org.elasticsearch.river.mongodb.Slurper.assignCollections():292:             CommandResult cmd = adminDb.authenticateCommand(definition.getMongoAdminUser(), definition.getMongoAdminPassword()
+source@org.elasticsearch.river.mongodb.Slurper.assignCollections():293:                     .toCharArray());
+source@org.elasticsearch.river.mongodb.Slurper.assignCollections():294:             if (!cmd.ok()) {
+source@org.elasticsearch.river.mongodb.Slurper.assignCollections():295:                 logger.error("Autenticatication failed for {}: {}", MongoDBRiver.MONGODB_ADMIN_DATABASE, cmd.getErrorMessage());
+source@org.elasticsearch.river.mongodb.Slurper.assignCollections():297:                 // return false;
+source@org.elasticsearch.river.mongodb.Slurper.assignCollections():298:             }
+sink@org.elasticsearch.river.mongodb.Slurper.assignCollections():302:         if (!definition.getMongoLocalUser().isEmpty() && !definition.getMongoLocalPassword().isEmpty() && !oplogDb.isAuthenticated()) {
+sink@org.elasticsearch.river.mongodb.Slurper.assignCollections():315:             return false;
+source@org.elasticsearch.river.mongodb.Slurper.assignCollections():322:             slurpedDb = adminDb.getMongo().getDB(definition.getMongoDb());
+sink@org.elasticsearch.river.mongodb.Slurper.assignCollections():331:         // mongoDbPassword.toCharArray());
+
+# same region in merge.java (scenario update):
+merge:286:     	DB adminDb;
+merge:287:     	if(!definition.getMongoAdminAuthDatabase().isEmpty()) {
+merge:288: 	    	adminDb = mongo.getDB(definition.getMongoAdminAuthDatabase());
+merge:289:     	} else {
+merge:290: 	    	adminDb = mongo.getDB(MongoDBRiver.MONGODB_ADMIN_DATABASE);
+merge:291:     	}
+merge:292:     	
+merge:293:     	if(!definition.getMongoLocalAuthDatabase().isEmpty()) {
+merge:294:     		logger.info("Local DB auth against "+definition.getMongoLocalAuthDatabase()+" user: "+definition.getMongoLocalUser());
+merge:295: 	    	oplogDb = mongo.getDB(definition.getMongoLocalAuthDatabase());
+merge:296:     	} else {
+merge:297:     		logger.info("Local DB auth against local user: "+definition.getMongoLocalUser());
+merge:298: 	    	oplogDb = mongo.getDB(MongoDBRiver.MONGODB_LOCAL_DATABASE);
+merge:299:     	}
+merge:300: 
+merge:301:         if (!definition.getMongoAdminUser().isEmpty() && !definition.getMongoAdminPassword().isEmpty()) {
+merge:302:             logger.debug("Authenticate {} with {}", MongoDBRiver.MONGODB_ADMIN_DATABASE, definition.getMongoAdminUser());
+merge:303: 
+merge:304:             CommandResult cmd = adminDb.authenticateCommand(definition.getMongoAdminUser(), definition.getMongoAdminPassword()
+merge:305:                     .toCharArray());
+merge:306:             if (!cmd.ok()) {
+merge:307:                 logger.error("Autenticatication failed for {}: {}", MongoDBRiver.MONGODB_ADMIN_DATABASE, cmd.getErrorMessage());
+merge:308:                 // Can still try with mongoLocal credential if provided.
+merge:309:                 // return false;
+merge:310:             }
+merge:311:             oplogDb = adminDb.getMongo().getDB(MongoDBRiver.MONGODB_LOCAL_DATABASE);
+merge:312:         }
+merge:313: 
+merge:314:         if (!definition.getMongoLocalUser().isEmpty() && !definition.getMongoLocalPassword().isEmpty() && !oplogDb.isAuthenticated()) {
+merge:315:             logger.debug("Authenticate {} with {}", MongoDBRiver.MONGODB_LOCAL_DATABASE, definition.getMongoLocalUser());
+merge:316:             CommandResult cmd = oplogDb.authenticateCommand(definition.getMongoLocalUser(), definition.getMongoLocalPassword()
+merge:317:                     .toCharArray());
+merge:318:             if (!cmd.ok()) {
+merge:319:                 logger.error("Autenticatication failed for {}: {}", MongoDBRiver.MONGODB_LOCAL_DATABASE, cmd.getErrorMessage());
+merge:320:                 return false;
+merge:321:             }
+merge:322:             oplogDb = oplogDb.getMongo().getDB(MongoDBRiver.MONGODB_LOCAL_DATABASE);
+merge:323:         }
+merge:324: 
+merge:325:         Set<String> collections = oplogDb.getCollectionNames();
+merge:326:         if (!collections.contains(MongoDBRiver.OPLOG_COLLECTION)) {
+merge:327:             logger.error("Cannot find " + MongoDBRiver.OPLOG_COLLECTION + " collection. Please check this link: http://goo.gl/2x5IW");
+merge:328:             return false;
+merge:329:         }
+merge:330:         oplogCollection = oplogDb.getCollection(MongoDBRiver.OPLOG_COLLECTION);
+merge:331:         oplogRefsCollection = oplogDb.getCollection(MongoDBRiver.OPLOG_REFS_COLLECTION);

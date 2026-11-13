@@ -1,0 +1,249 @@
+# scenario   : 004S
+# project    : elasticsearch-river-mongodb
+# commit     : 3d4f99516ba3177f7d88a1f600923138a8b77cc8
+# class name : org.elasticsearch.river.mongodb.MongoDBRiverDefinition
+# method name: parseSettings(String, String, RiverSettings, ScriptService)
+# side       : left (left-right-lines.csv)
+source@org.elasticsearch.river.mongodb.MongoDBRiverDefinition.parseSettings(String, String, RiverSettings, ScriptService):490:                     if (operation.equals(MongoDBRiver.OPLOG_COMMAND_OPERATION)) {
+source@org.elasticsearch.river.mongodb.MongoDBRiverDefinition.parseSettings(String, String, RiverSettings, ScriptService):515:                     doInitialImport(coll);
+source@org.elasticsearch.river.mongodb.MongoDBRiverDefinition.parseSettings(String, String, RiverSettings, ScriptService):576:         }
+source@org.elasticsearch.river.mongodb.MongoDBRiverDefinition.parseSettings(String, String, RiverSettings, ScriptService):582:         if (!oplogOperations.contains(operation)) {
+source@org.elasticsearch.river.mongodb.MongoDBRiverDefinition.parseSettings(String, String, RiverSettings, ScriptService):617:             }
+source@org.elasticsearch.river.mongodb.MongoDBRiverDefinition.parseSettings(String, String, RiverSettings, ScriptService):635:         if (entry.containsField(MongoDBRiver.OPLOG_UPDATE)) {
+source@org.elasticsearch.river.mongodb.MongoDBRiverDefinition.parseSettings(String, String, RiverSettings, ScriptService):670:         if (cursor == null || time == null) {
+sink@org.elasticsearch.river.mongodb.MongoDBRiverDefinition.parseSettings(String, String, RiverSettings, ScriptService):683: 
+sink@org.elasticsearch.river.mongodb.MongoDBRiverDefinition.parseSettings(String, String, RiverSettings, ScriptService):686:         if (logger.isTraceEnabled()) {
+sink@org.elasticsearch.river.mongodb.MongoDBRiverDefinition.parseSettings(String, String, RiverSettings, ScriptService):699:             for (DBObject item : slurpedCollection.find(update, findKeys)) {
+sink@org.elasticsearch.river.mongodb.MongoDBRiverDefinition.parseSettings(String, String, RiverSettings, ScriptService):703:     }
+sink@org.elasticsearch.river.mongodb.MongoDBRiverDefinition.parseSettings(String, String, RiverSettings, ScriptService):714:             return null;
+sink@org.elasticsearch.river.mongodb.MongoDBRiverDefinition.parseSettings(String, String, RiverSettings, ScriptService):717:         }
+
+# same region in merge.java (scenario update):
+merge:490:             }
+merge:491:         }
+merge:492:         return oplogTimestamp;
+merge:493:     }
+merge:494: 
+merge:495:     @SuppressWarnings("unchecked")
+merge:496:     private void flattenOps(DBObject entry) {
+merge:497:         Object ref = entry.removeField(MongoDBRiver.OPLOG_REF);
+merge:498:         Object ops = ref == null ? entry.removeField(MongoDBRiver.OPLOG_OPS) : getRefOps(ref);
+merge:499:         if (ops != null) {
+merge:500:             try {
+merge:501:                 for (DBObject op : (List<DBObject>) ops) {
+merge:502:                     String operation = (String) op.get(MongoDBRiver.OPLOG_OPERATION);
+merge:503:                     if (operation.equals(MongoDBRiver.OPLOG_COMMAND_OPERATION)) {
+merge:504:                         DBObject object = (DBObject) op.get(MongoDBRiver.OPLOG_OBJECT);
+merge:505:                         if (object.containsField(MongoDBRiver.OPLOG_CREATE_COMMAND)) {
+merge:506:                             continue;
+merge:507:                         }
+merge:508:                     }
+merge:509:                     entry.putAll(op);
+merge:510:                 }
+merge:511:             } catch (ClassCastException e) {
+merge:512:                 logger.error(e.toString(), e);
+merge:513:             }
+merge:514:         }
+merge:515:     }
+merge:516: 
+merge:517:     private Object getRefOps(Object ref) {
+merge:518:         // db.oplog.refs.find({_id: {$gte: {oid: %ref%}}}).limit(1)
+merge:519:         DBObject query = new BasicDBObject(MongoDBRiver.MONGODB_ID_FIELD, new BasicDBObject(QueryOperators.GTE,
+merge:520:                 new BasicDBObject(MongoDBRiver.MONGODB_OID_FIELD, ref)));
+merge:521:         DBObject oplog = oplogRefsCollection.findOne(query);
+merge:522:         return oplog == null ? null : oplog.get("ops");
+merge:523:     }
+merge:524: 
+merge:525:     private void processAdminCommandOplogEntry(final DBObject entry, final Timestamp<?> startTimestamp) throws InterruptedException {
+merge:526:         if (logger.isTraceEnabled()) {
+merge:527:             logger.trace("processAdminCommandOplogEntry - [{}]", entry);
+merge:528:         }
+merge:529:         DBObject object = (DBObject) entry.get(MongoDBRiver.OPLOG_OBJECT);
+merge:530:         if (definition.isImportAllCollections()) {
+merge:531:             if (object.containsField(MongoDBRiver.OPLOG_RENAME_COLLECTION_COMMAND_OPERATION) && object.containsField(MongoDBRiver.OPLOG_TO)) {
+merge:532:                 String to = object.get(MongoDBRiver.OPLOG_TO).toString();
+merge:533:                 if (to.startsWith(definition.getMongoDb())) {
+merge:534:                     String newCollection = getCollectionFromNamespace(to);
+merge:535:                     DBCollection coll = slurpedDb.getCollection(newCollection);
+merge:536:                     doInitialImport(coll);
+merge:537:                 }
+merge:538:             }
+merge:539:         }
+merge:540:     }
+merge:541: 
+merge:542:     private String getCollectionFromNamespace(String namespace) {
+merge:543:         if (namespace.startsWith(definition.getMongoDb()) && CharMatcher.is('.').countIn(namespace) == 1) {
+merge:544:             return namespace.substring(definition.getMongoDb().length() + 1);
+merge:545:         }
+merge:546:         logger.error("Cannot get collection from namespace [{}]", namespace);
+merge:547:         return null;
+merge:548:     }
+merge:549: 
+merge:550:     private boolean isValidOplogEntry(final DBObject entry, final Timestamp<?> startTimestamp) {
+merge:551:         if (!entry.containsField(MongoDBRiver.OPLOG_OPERATION)) {
+merge:552:             logger.trace("[Empty Oplog Entry] - can be ignored. {}", JSONSerializers.getStrict().serialize(entry));
+merge:553:             return false;
+merge:554:         }
+merge:555:         if (MongoDBRiver.OPLOG_NOOP_OPERATION.equals(entry.get(MongoDBRiver.OPLOG_OPERATION))) {
+merge:556:             logger.trace("[No-op Oplog Entry] - can be ignored. {}", JSONSerializers.getStrict().serialize(entry));
+merge:557:             return false;
+merge:558:         }
+merge:559:         String namespace = (String) entry.get(MongoDBRiver.OPLOG_NAMESPACE);
+merge:560:         // Initial support for sharded collection -
+merge:561:         // https://jira.mongodb.org/browse/SERVER-4333
+merge:562:         // Not interested in operation from migration or sharding
+merge:563:         if (entry.containsField(MongoDBRiver.OPLOG_FROM_MIGRATE) && ((BasicBSONObject) entry).getBoolean(MongoDBRiver.OPLOG_FROM_MIGRATE)) {
+merge:564:             logger.trace("[Invalid Oplog Entry] - from migration or sharding operation. Can be ignored. {}", JSONSerializers.getStrict().serialize(entry));
+merge:565:             return false;
+merge:566:         }
+merge:567:         // Not interested by chunks - skip all
+merge:568:         if (namespace.endsWith(MongoDBRiver.GRIDFS_CHUNKS_SUFFIX)) {
+merge:569:             return false;
+merge:570:         }
+merge:571: 
+merge:572:         if (startTimestamp != null) {
+merge:573:             Timestamp<?> oplogTimestamp = Timestamp.on(entry);
+merge:574:             if (Timestamp.compare(oplogTimestamp, startTimestamp) < 0) {
+merge:575:                 logger.error("[Invalid Oplog Entry] - entry timestamp [{}] before startTimestamp [{}]",
+merge:576:                         JSONSerializers.getStrict().serialize(entry), startTimestamp);
+merge:577:                 return false;
+merge:578:             }
+merge:579:         }
+merge:580: 
+merge:581:         boolean validNamespace = false;
+merge:582:         if (definition.isMongoGridFS()) {
+merge:583:             validNamespace = gridfsOplogNamespace.equals(namespace);
+merge:584:         } else {
+merge:585:             if (definition.isImportAllCollections()) {
+merge:586:                 // Skip temp entry generated by map / reduce
+merge:587:                 if (namespace.startsWith(definition.getMongoDb()) && !namespace.startsWith(definition.getMongoDb() + ".tmp.mr")) {
+merge:588:                     validNamespace = true;
+merge:589:                 }
+merge:590:             } else {
+merge:591:                 if (definition.getMongoOplogNamespace().equals(namespace)) {
+merge:592:                     validNamespace = true;
+merge:593:                 }
+merge:594:             }
+merge:595:             if (cmdOplogNamespace.equals(namespace)) {
+merge:596:                 validNamespace = true;
+merge:597:             }
+merge:598: 
+merge:599:             if (MongoDBRiver.OPLOG_ADMIN_COMMAND.equals(namespace)) {
+merge:600:                 validNamespace = true;
+merge:601:             }
+merge:602:         }
+merge:603:         if (!validNamespace) {
+merge:604:             logger.trace("[Invalid Oplog Entry] - namespace [{}] is not valid", namespace);
+merge:605:             return false;
+merge:606:         }
+merge:607:         String operation = (String) entry.get(MongoDBRiver.OPLOG_OPERATION);
+merge:608:         if (!oplogOperations.contains(operation)) {
+merge:609:             logger.trace("[Invalid Oplog Entry] - operation [{}] is not valid", operation);
+merge:610:             return false;
+merge:611:         }
+merge:612: 
+merge:613:         // TODO: implement a better solution
+merge:614:         if (definition.getMongoOplogFilter() != null) {
+merge:615:             DBObject object = (DBObject) entry.get(MongoDBRiver.OPLOG_OBJECT);
+merge:616:             BasicDBObject filter = definition.getMongoOplogFilter();
+merge:617:             if (!filterMatch(filter, object)) {
+merge:618:                 logger.trace("[Invalid Oplog Entry] - filter [{}] does not match object [{}]", filter, object);
+merge:619:                 return false;
+merge:620:             }
+merge:621:         }
+merge:622:         return true;
+merge:623:     }
+merge:624: 
+merge:625:     private boolean filterMatch(DBObject filter, DBObject object) {
+merge:626:         for (String key : filter.keySet()) {
+merge:627:             if (!object.containsField(key)) {
+merge:628:                 return false;
+merge:629:             }
+merge:630:             if (!filter.get(key).equals(object.get(key))) {
+merge:631:                 return false;
+merge:632:             }
+merge:633:         }
+merge:634:         return true;
+merge:635:     }
+merge:636: 
+merge:637:     private DBObject applyFieldFilter(DBObject object) {
+merge:638:         if (object instanceof GridFSFile) {
+merge:639:             GridFSFile file = (GridFSFile) object;
+merge:640:             DBObject metadata = file.getMetaData();
+merge:641:             if (metadata != null) {
+merge:642:                 file.setMetaData(applyFieldFilter(metadata));
+merge:643:             }
+merge:644:         } else {
+merge:645:             object = MongoDBHelper.applyExcludeFields(object, definition.getExcludeFields());
+merge:646:             object = MongoDBHelper.applyIncludeFields(object, definition.getIncludeFields());
+merge:647:         }
+merge:648:         return object;
+merge:649:     }
+merge:650: 
+merge:651:     /*
+merge:652:      * Extract "_id" from "o" if it fails try to extract from "o2"
+merge:653:      */
+merge:654:     private String getObjectIdFromOplogEntry(DBObject entry) {
+merge:655:         if (entry.containsField(MongoDBRiver.OPLOG_OBJECT)) {
+merge:656:             DBObject object = (DBObject) entry.get(MongoDBRiver.OPLOG_OBJECT);
+merge:657:             if (object.containsField(MongoDBRiver.MONGODB_ID_FIELD)) {
+merge:658:                 return object.get(MongoDBRiver.MONGODB_ID_FIELD).toString();
+merge:659:             }
+merge:660:         }
+merge:661:         if (entry.containsField(MongoDBRiver.OPLOG_UPDATE)) {
+merge:662:             DBObject object = (DBObject) entry.get(MongoDBRiver.OPLOG_UPDATE);
+merge:663:             if (object.containsField(MongoDBRiver.MONGODB_ID_FIELD)) {
+merge:664:                 return object.get(MongoDBRiver.MONGODB_ID_FIELD).toString();
+merge:665:             }
+merge:666:         }
+merge:667:         return null;
+merge:668:     }
+merge:669: 
+merge:670:     private DBCursor oplogCursor(final Timestamp<?> timestampOverride) throws SlurperException {
+merge:671:         Timestamp<?> time = timestampOverride == null ? MongoDBRiver.getLastTimestamp(client, definition) : timestampOverride;
+merge:672:         if (time == null) {
+merge:673:             return null;
+merge:674:         }
+merge:675:         DBObject indexFilter = time.getOplogFilter();
+merge:676:         if (indexFilter == null) {
+merge:677:             return null;
+merge:678:         }
+merge:679: 
+merge:680:         int options = Bytes.QUERYOPTION_TAILABLE | Bytes.QUERYOPTION_AWAITDATA | Bytes.QUERYOPTION_NOTIMEOUT
+merge:681:         // Using OPLOGREPLAY to improve performance:
+merge:682:         // https://jira.mongodb.org/browse/JAVA-771
+merge:683:                 | Bytes.QUERYOPTION_OPLOGREPLAY;
+merge:684: 
+merge:685:         DBCursor cursor = oplogCollection.find(indexFilter).setOptions(options);
+merge:686: 
+merge:687:         // Toku sometimes gets stuck without this hint:
+merge:688:         if (indexFilter.containsField(MongoDBRiver.MONGODB_ID_FIELD)) {
+merge:689:             cursor = cursor.hint("_id_");
+merge:690:         }
+merge:691:         isRiverStale(cursor, time);
+merge:692:         return cursor;
+merge:693:     }
+merge:694: 
+merge:695:     private void isRiverStale(DBCursor cursor, Timestamp<?> time) throws SlurperException {
+merge:696:         if (cursor == null || time == null) {
+merge:697:             return;
+merge:698:         }
+merge:699:         if (definition.getInitialTimestamp() != null && time.equals(definition.getInitialTimestamp())) {
+merge:700:             return;
+merge:701:         }
+merge:702:         DBObject entry = cursor.next();
+merge:703:         Timestamp<?> oplogTimestamp = Timestamp.on(entry);
+merge:704:         if (!time.equals(oplogTimestamp)) {
+merge:705:             MongoDBRiverHelper.setRiverStatus(client, definition.getRiverName(), Status.RIVER_STALE);
+merge:706:             throw new SlurperException("River out of sync with oplog.rs collection");
+merge:707:         }
+merge:708:     }
+merge:709: 
+merge:710:     private void addQueryToStream(final Operation operation, final Timestamp<?> currentTimestamp, final DBObject update,
+merge:711:             final String collection) throws InterruptedException {
+merge:712:         if (logger.isTraceEnabled()) {
+merge:713:             logger.trace("addQueryToStream - operation [{}], currentTimestamp [{}], update [{}]", operation, currentTimestamp, update);
+merge:714:         }
+merge:715: 
+merge:716:         if (collection == null) {
+merge:717:             for (String name : slurpedDb.getCollectionNames()) {

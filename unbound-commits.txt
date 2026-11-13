@@ -1,0 +1,199 @@
+swagger-core/e7fea7c4889dbdd6a4e0b2d059c8aa0f126ab1c2/changed-methods/io.swagger.jaxrs2.OperationParser/getSchemaFromAnnotation(io.swagger.oas.annotations.media.Schema)/right-left-lines.csv
+swagger-core/e7fea7c4889dbdd6a4e0b2d059c8aa0f126ab1c2/changed-methods/io.swagger.jaxrs2.OperationParser/getSchemaFromAnnotation(io.swagger.oas.annotations.media.Schema)/left-right-lines.csv
+antlr4/69ff2669eec265e25721dbc27cb00f6c381d0b41/changed-methods/org.antlr.v4.codegen.target.Python3Target/python3Keywords/right-left-lines.csv
+antlr4/69ff2669eec265e25721dbc27cb00f6c381d0b41/changed-methods/org.antlr.v4.codegen.target.Python3Target/python3Keywords/left-right-lines.csv
+antlr4/69ff2669eec265e25721dbc27cb00f6c381d0b41/changed-methods/org.antlr.v4.codegen.target.Python2Target/python2Keywords/right-left-lines.csv
+antlr4/69ff2669eec265e25721dbc27cb00f6c381d0b41/changed-methods/org.antlr.v4.codegen.target.Python2Target/python2Keywords/left-right-lines.csv
+spring-boot/074771ec125dd407af0282b92960e9e9e3377e84/changed-methods/org.springframework.boot.context.web.SpringBootServletInitializer/createRootApplicationContext(ServletContext)/right-left-lines.csv
+spring-boot/074771ec125dd407af0282b92960e9e9e3377e84/changed-methods/org.springframework.boot.context.web.SpringBootServletInitializer/createRootApplicationContext(ServletContext)/left-right-lines.csv
+spring-boot/074771ec125dd407af0282b92960e9e9e3377e84/realistic/createRootApplicationContext(ServletContext)/changed-methods/org.springframework.boot.context.web.SpringBootServletInitializer/createRootApplicationContext(ServletContext)/right-left-lines.csv
+spring-boot/074771ec125dd407af0282b92960e9e9e3377e84/realistic/createRootApplicationContext(ServletContext)/changed-methods/org.springframework.boot.context.web.SpringBootServletInitializer/createRootApplicationContext(ServletContext)/left-right-lines.csv
+spring-boot/ea8107b6a53fa60b5f23b33e1b6d2e88bb60133c/changed-methods/org.springframework.boot.context.embedded.undertow.UndertowEmbeddedServletContainerFactory/createDeploymentManager(ServletContextInitializer)/right-left-lines.csv
+spring-boot/ea8107b6a53fa60b5f23b33e1b6d2e88bb60133c/changed-methods/org.springframework.boot.context.embedded.undertow.UndertowEmbeddedServletContainerFactory/createDeploymentManager(ServletContextInitializer)/left-right-lines.csv
+spring-boot/2d4e68a9777601bfb8309c94d8b74bc21be80ad1/changed-methods/org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory/customizeConnector(Connector)/right-left-lines.csv
+spring-boot/2d4e68a9777601bfb8309c94d8b74bc21be80ad1/changed-methods/org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory/customizeConnector(Connector)/left-right-lines.csv
+spring-boot/3444ebbc05b99a164474c14d6a6784f749514428/changed-methods/org.springframework.boot.context.web.SpringBootServletInitializer/createRootApplicationContext(ServletContext)/right-left-lines.csv
+spring-boot/3444ebbc05b99a164474c14d6a6784f749514428/changed-methods/org.springframework.boot.context.web.SpringBootServletInitializer/createRootApplicationContext(ServletContext)/left-right-lines.csv
+spring-boot/fdd3f12ee0f92ac18844c08bf71df39feebb6673/changed-methods/org.springframework.boot.autoconfigure.logging.AutoConfigurationReportLoggingInitializer/logAutoConfigurationReport(boolean)/right-left-lines.csv
+spring-boot/fdd3f12ee0f92ac18844c08bf71df39feebb6673/changed-methods/org.springframework.boot.autoconfigure.logging.AutoConfigurationReportLoggingInitializer/logAutoConfigurationReport(boolean)/left-right-lines.csv
+spring-boot/c93ea54ea3e08eaa2a17640d5d2b3e60264c1a9c/changed-methods/org.springframework.boot.autoconfigure.cache.RedisCacheConfiguration/cacheManager(RedisTemplate<Object,Object>)/right-left-lines.csv
+spring-boot/c93ea54ea3e08eaa2a17640d5d2b3e60264c1a9c/changed-methods/org.springframework.boot.autoconfigure.cache.RedisCacheConfiguration/cacheManager(RedisTemplate<Object,Object>)/left-right-lines.csv
+spring-boot/6664ce19d6f2388ebd6cf54763f54fdddd226b9a/changed-methods/org.springframework.boot.jta.atomikos.AtomikosPropertiesTests/testProperties()/right-left-lines.csv
+spring-boot/6664ce19d6f2388ebd6cf54763f54fdddd226b9a/changed-methods/org.springframework.boot.jta.atomikos.AtomikosPropertiesTests/testProperties()/left-right-lines.csv
+spring-boot/6664ce19d6f2388ebd6cf54763f54fdddd226b9a/changed-methods/org.springframework.boot.jta.atomikos.AtomikosPropertiesTests/testDefaultProperties()/right-left-lines.csv
+spring-boot/6664ce19d6f2388ebd6cf54763f54fdddd226b9a/changed-methods/org.springframework.boot.jta.atomikos.AtomikosPropertiesTests/testDefaultProperties()/left-right-lines.csv
+spring-boot/6664ce19d6f2388ebd6cf54763f54fdddd226b9a/changed-methods/org.springframework.boot.jta.atomikos.AtomikosProperties/asProperties()/right-left-lines.csv
+spring-boot/6664ce19d6f2388ebd6cf54763f54fdddd226b9a/changed-methods/org.springframework.boot.jta.atomikos.AtomikosProperties/asProperties()/left-right-lines.csv
+spring-boot/958a0a45f164601d01cb706c19f22ed3e25eff56/changed-methods/org.springframework.boot.autoconfigure.mongo.MongoProperties/builder(MongoClientOptions)/right-left-lines.csv
+spring-boot/958a0a45f164601d01cb706c19f22ed3e25eff56/changed-methods/org.springframework.boot.autoconfigure.mongo.MongoProperties/builder(MongoClientOptions)/left-right-lines.csv
+HikariCP/1bca94af9ec625f21d1b58ff10efb5be71ab87a6/changed-methods/com.zaxxer.hikari.HikariConfig/validate()/right-left-lines.csv
+HikariCP/1bca94af9ec625f21d1b58ff10efb5be71ab87a6/changed-methods/com.zaxxer.hikari.HikariConfig/validate()/left-right-lines.csv
+HikariCP/1bca94af9ec625f21d1b58ff10efb5be71ab87a6/changed-methods/com.zaxxer.hikari.HikariPool/addConnection()/right-left-lines.csv
+HikariCP/1bca94af9ec625f21d1b58ff10efb5be71ab87a6/changed-methods/com.zaxxer.hikari.HikariPool/addConnection()/left-right-lines.csv
+titan/04edd7f0e7eab2e8255a497922e34dc707d84c19/changed-methods/com.thinkaurelius.titan.graphdb.transaction.StandardTitanTx/StandardTitanTx(StandardTitanGraph, TransactionConfiguration, BackendTransaction)/right-left-lines.csv
+titan/04edd7f0e7eab2e8255a497922e34dc707d84c19/changed-methods/com.thinkaurelius.titan.graphdb.transaction.StandardTitanTx/StandardTitanTx(StandardTitanGraph, TransactionConfiguration, BackendTransaction)/left-right-lines.csv
+titan/387c16ea05ef9fa312f37139228d2bbf61455ff4/changed-methods/com.thinkaurelius.titan.graphdb.database.serialize.SerializerInitialization/initialize(Serializer)/right-left-lines.csv
+titan/387c16ea05ef9fa312f37139228d2bbf61455ff4/changed-methods/com.thinkaurelius.titan.graphdb.database.serialize.SerializerInitialization/initialize(Serializer)/left-right-lines.csv
+quickml/bae968d9a85c0501ba8842a6f88e7fc2c6b78693/changed-methods/quickdt.experiments.OutOfTimeCrossValidatorRunner/getRandomForestBuilder(int, int)/right-left-lines.csv
+quickml/bae968d9a85c0501ba8842a6f88e7fc2c6b78693/changed-methods/quickdt.experiments.OutOfTimeCrossValidatorRunner/getRandomForestBuilder(int, int)/left-right-lines.csv
+SimianArmy/c39c19bc6b9231601f6bc7358e638a99adf37e0d/changed-methods/com.netflix.simianarmy.basic.BasicSimianArmyContext/BasicSimianArmyContext(String)/right-left-lines.csv
+SimianArmy/c39c19bc6b9231601f6bc7358e638a99adf37e0d/changed-methods/com.netflix.simianarmy.basic.BasicSimianArmyContext/BasicSimianArmyContext(String)/left-right-lines.csv
+SimianArmy/345ad9513aafff397050d613fa87ad06ddffe99d/changed-methods/com.netflix.simianarmy.basic.janitor.BasicJanitorMonkeyContext/getInstanceJanitor()/right-left-lines.csv
+SimianArmy/345ad9513aafff397050d613fa87ad06ddffe99d/changed-methods/com.netflix.simianarmy.basic.janitor.BasicJanitorMonkeyContext/getInstanceJanitor()/left-right-lines.csv
+alluxio/dafe76c90024a915224264b4862b33f40cb8478c/changed-methods/tachyon.hadoop.HdfsFileInputStream/HdfsFileInputStream(TachyonFS, int, Path, Configuration, int)/right-left-lines.csv
+alluxio/dafe76c90024a915224264b4862b33f40cb8478c/changed-methods/tachyon.hadoop.HdfsFileInputStream/HdfsFileInputStream(TachyonFS, int, Path, Configuration, int)/left-right-lines.csv
+RxJava/1c47b0cb26e6d971eefa42ebb3479099236b0125/changed-methods/rx.concurrency.TestScheduler/triggerActions(long)/right-left-lines.csv
+RxJava/1c47b0cb26e6d971eefa42ebb3479099236b0125/changed-methods/rx.concurrency.TestScheduler/triggerActions(long)/left-right-lines.csv
+RxJava/a40a4130edcdadc2340da5787ca30353018173f2/changed-methods/rx.internal.operators.OperatorMulticast/connect(Action1<?superSubscription>)/right-left-lines.csv
+RxJava/a40a4130edcdadc2340da5787ca30353018173f2/changed-methods/rx.internal.operators.OperatorMulticast/connect(Action1<?superSubscription>)/left-right-lines.csv
+webbit/74d2d2b87704d003acacb34e4ca8fb5f897b938f/changed-methods/org.webbitserver.netty.WebSocketClient/adjustPipelineToWebSocket(ChannelHandlerContext, MessageEvent, ChannelHandler, ChannelHandler)/right-left-lines.csv
+webbit/74d2d2b87704d003acacb34e4ca8fb5f897b938f/changed-methods/org.webbitserver.netty.WebSocketClient/adjustPipelineToWebSocket(ChannelHandlerContext, MessageEvent, ChannelHandler, ChannelHandler)/left-right-lines.csv
+orientdb/a5ce3bcc0a1d196745c575ad6602019f7a6b86f8/changed-methods/com.orientechnologies.orient.core.Orient/startup()/right-left-lines.csv
+orientdb/a5ce3bcc0a1d196745c575ad6602019f7a6b86f8/changed-methods/com.orientechnologies.orient.core.Orient/startup()/left-right-lines.csv
+elasticsearch/f3d63095dbcc985e24162fbac4ee0d6914dc757d/changed-methods/org.elasticsearch.index.analysis.commongrams.CommonGramsTokenFilterFactoryTests/testQueryModeCommonGramsAnalysis()/right-left-lines.csv
+elasticsearch/f3d63095dbcc985e24162fbac4ee0d6914dc757d/changed-methods/org.elasticsearch.index.analysis.commongrams.CommonGramsTokenFilterFactoryTests/testQueryModeCommonGramsAnalysis()/left-right-lines.csv
+elasticsearch/f3d63095dbcc985e24162fbac4ee0d6914dc757d/changed-methods/org.elasticsearch.index.analysis.commongrams.CommonGramsTokenFilterFactoryTests/testCommonGramsAnalysis()/right-left-lines.csv
+elasticsearch/f3d63095dbcc985e24162fbac4ee0d6914dc757d/changed-methods/org.elasticsearch.index.analysis.commongrams.CommonGramsTokenFilterFactoryTests/testCommonGramsAnalysis()/left-right-lines.csv
+elasticsearch/f3d63095dbcc985e24162fbac4ee0d6914dc757d/changed-methods/org.elasticsearch.index.analysis.synonyms.SynonymsAnalysisTest/testSynonymsAnalysis()/right-left-lines.csv
+elasticsearch/f3d63095dbcc985e24162fbac4ee0d6914dc757d/changed-methods/org.elasticsearch.index.analysis.synonyms.SynonymsAnalysisTest/testSynonymsAnalysis()/left-right-lines.csv
+elasticsearch/f3d63095dbcc985e24162fbac4ee0d6914dc757d/changed-methods/org.elasticsearch.index.analysis.KuromojiAnalysisTests/createAnalysisService()/right-left-lines.csv
+elasticsearch/f3d63095dbcc985e24162fbac4ee0d6914dc757d/changed-methods/org.elasticsearch.index.analysis.KuromojiAnalysisTests/createAnalysisService()/left-right-lines.csv
+elasticsearch/f3d63095dbcc985e24162fbac4ee0d6914dc757d/realistic/testQueryModeCommonGramsAnalysis()/changed-methods/org.elasticsearch.index.analysis.commongrams.CommonGramsTokenFilterFactoryTests/testQueryModeCommonGramsAnalysis()/right-left-lines.csv
+elasticsearch/f3d63095dbcc985e24162fbac4ee0d6914dc757d/realistic/testQueryModeCommonGramsAnalysis()/changed-methods/org.elasticsearch.index.analysis.commongrams.CommonGramsTokenFilterFactoryTests/testQueryModeCommonGramsAnalysis()/left-right-lines.csv
+elasticsearch/f3d63095dbcc985e24162fbac4ee0d6914dc757d/realistic/testCommonGramsAnalysis()/changed-methods/org.elasticsearch.index.analysis.commongrams.CommonGramsTokenFilterFactoryTests/testCommonGramsAnalysis()/right-left-lines.csv
+elasticsearch/f3d63095dbcc985e24162fbac4ee0d6914dc757d/realistic/testCommonGramsAnalysis()/changed-methods/org.elasticsearch.index.analysis.commongrams.CommonGramsTokenFilterFactoryTests/testCommonGramsAnalysis()/left-right-lines.csv
+elasticsearch/59cb67c7bd0ab6311115b20954e013412b676b29/changed-methods/org.elasticsearch.index.query.MultiMatchQueryBuilder/doXContent(XContentBuilder, Params)/right-left-lines.csv
+elasticsearch/59cb67c7bd0ab6311115b20954e013412b676b29/changed-methods/org.elasticsearch.index.query.MultiMatchQueryBuilder/doXContent(XContentBuilder, Params)/left-right-lines.csv
+elasticsearch/59cb67c7bd0ab6311115b20954e013412b676b29/changed-methods/org.elasticsearch.index.query.support.NestedInnerQueryParseSupport/setPathLevel()/right-left-lines.csv
+elasticsearch/59cb67c7bd0ab6311115b20954e013412b676b29/changed-methods/org.elasticsearch.index.query.support.NestedInnerQueryParseSupport/setPathLevel()/left-right-lines.csv
+elasticsearch/0404db65e3497452886173957729c8e82cfd4a03/changed-methods/org.elasticsearch.test.ESSingleNodeTestCase/newNode()/right-left-lines.csv
+elasticsearch/0404db65e3497452886173957729c8e82cfd4a03/changed-methods/org.elasticsearch.test.ESSingleNodeTestCase/newNode()/left-right-lines.csv
+elasticsearch/0404db65e3497452886173957729c8e82cfd4a03/changed-methods/org.elasticsearch.common.settings.ClusterSettings/BUILT_IN_CLUSTER_SETTINGS/right-left-lines.csv
+elasticsearch/0404db65e3497452886173957729c8e82cfd4a03/changed-methods/org.elasticsearch.common.settings.ClusterSettings/BUILT_IN_CLUSTER_SETTINGS/left-right-lines.csv
+elasticsearch/36884807b3cc9d660db4da062275c7fdbec8ba67/changed-methods/org.elasticsearch.index.query.SimpleIndexQueryParserTests/setup()/right-left-lines.csv
+elasticsearch/36884807b3cc9d660db4da062275c7fdbec8ba67/changed-methods/org.elasticsearch.index.query.SimpleIndexQueryParserTests/setup()/left-right-lines.csv
+elasticsearch/3764b3ff800c94293aba0bb0fa18c7df80a764f7/changed-methods/org.elasticsearch.rest.action.cat.RestNodesAction/getTableWithHeader(RestRequest)/right-left-lines.csv
+elasticsearch/3764b3ff800c94293aba0bb0fa18c7df80a764f7/changed-methods/org.elasticsearch.rest.action.cat.RestNodesAction/getTableWithHeader(RestRequest)/left-right-lines.csv
+elasticsearch/3764b3ff800c94293aba0bb0fa18c7df80a764f7/changed-methods/org.elasticsearch.rest.action.cat.RestShardsAction/getTableWithHeader(RestRequest)/right-left-lines.csv
+elasticsearch/3764b3ff800c94293aba0bb0fa18c7df80a764f7/changed-methods/org.elasticsearch.rest.action.cat.RestShardsAction/getTableWithHeader(RestRequest)/left-right-lines.csv
+elasticsearch/3764b3ff800c94293aba0bb0fa18c7df80a764f7/changed-methods/org.elasticsearch.rest.action.cat.RestIndicesAction/getTableWithHeader(RestRequest)/right-left-lines.csv
+elasticsearch/3764b3ff800c94293aba0bb0fa18c7df80a764f7/changed-methods/org.elasticsearch.rest.action.cat.RestIndicesAction/getTableWithHeader(RestRequest)/left-right-lines.csv
+elasticsearch/d896886973660785aac45275ddb110c1a6babc57/changed-methods/org.elasticsearch.index.IndexSettings/IndexSettings(IndexMetaData, Settings, Predicate<String>, IndexScopedSettings)/right-left-lines.csv
+elasticsearch/d896886973660785aac45275ddb110c1a6babc57/changed-methods/org.elasticsearch.index.IndexSettings/IndexSettings(IndexMetaData, Settings, Predicate<String>, IndexScopedSettings)/left-right-lines.csv
+elasticsearch/d896886973660785aac45275ddb110c1a6babc57/changed-methods/org.elasticsearch.action.index.TransportIndexAction/executeIndexRequestOnPrimary(IndexRequest, IndexShard, MappingUpdatedAction)/right-left-lines.csv
+elasticsearch/d896886973660785aac45275ddb110c1a6babc57/changed-methods/org.elasticsearch.action.index.TransportIndexAction/executeIndexRequestOnPrimary(IndexRequest, IndexShard, MappingUpdatedAction)/left-right-lines.csv
+elasticsearch/d896886973660785aac45275ddb110c1a6babc57/changed-methods/org.elasticsearch.action.support.replication.ReplicationOperationTests/testReplication()/right-left-lines.csv
+elasticsearch/d896886973660785aac45275ddb110c1a6babc57/changed-methods/org.elasticsearch.action.support.replication.ReplicationOperationTests/testReplication()/left-right-lines.csv
+elasticsearch/d896886973660785aac45275ddb110c1a6babc57/changed-methods/org.elasticsearch.index.engine.InternalEngine/InternalEngine(EngineConfig)/right-left-lines.csv
+elasticsearch/d896886973660785aac45275ddb110c1a6babc57/changed-methods/org.elasticsearch.index.engine.InternalEngine/InternalEngine(EngineConfig)/left-right-lines.csv
+elasticsearch/d896886973660785aac45275ddb110c1a6babc57/changed-methods/org.elasticsearch.index.engine.InternalEngineTests/testRecoverFromForeignTranslog()/right-left-lines.csv
+elasticsearch/d896886973660785aac45275ddb110c1a6babc57/changed-methods/org.elasticsearch.index.engine.InternalEngineTests/testRecoverFromForeignTranslog()/left-right-lines.csv
+elasticsearch/d896886973660785aac45275ddb110c1a6babc57/changed-methods/org.elasticsearch.action.update.TransportUpdateAction/shardOperation(UpdateRequest, ActionListener<UpdateResponse>, int)/right-left-lines.csv
+elasticsearch/d896886973660785aac45275ddb110c1a6babc57/changed-methods/org.elasticsearch.action.update.TransportUpdateAction/shardOperation(UpdateRequest, ActionListener<UpdateResponse>, int)/left-right-lines.csv
+elasticsearch/d896886973660785aac45275ddb110c1a6babc57/changed-methods/org.elasticsearch.action.support.replication.TransportReplicationAction/doRun()/right-left-lines.csv
+elasticsearch/d896886973660785aac45275ddb110c1a6babc57/changed-methods/org.elasticsearch.action.support.replication.TransportReplicationAction/doRun()/left-right-lines.csv
+elasticsearch/d896886973660785aac45275ddb110c1a6babc57/changed-methods/org.elasticsearch.cluster.metadata.MetaDataCreateIndexService/createIndex(CreateIndexClusterStateUpdateRequest, ActionListener<ClusterStateUpdateResponse>)/right-left-lines.csv
+elasticsearch/d896886973660785aac45275ddb110c1a6babc57/changed-methods/org.elasticsearch.cluster.metadata.MetaDataCreateIndexService/createIndex(CreateIndexClusterStateUpdateRequest, ActionListener<ClusterStateUpdateResponse>)/left-right-lines.csv
+elasticsearch/d896886973660785aac45275ddb110c1a6babc57/changed-methods/org.elasticsearch.action.bulk.TransportShardBulkAction/update(IndexMetaData, BulkShardRequest, IndexShard, long[], VersionType[], Translog.Location, int, BulkItemRequest)/right-left-lines.csv
+elasticsearch/d896886973660785aac45275ddb110c1a6babc57/changed-methods/org.elasticsearch.action.bulk.TransportShardBulkAction/update(IndexMetaData, BulkShardRequest, IndexShard, long[], VersionType[], Translog.Location, int, BulkItemRequest)/left-right-lines.csv
+elasticsearch/d896886973660785aac45275ddb110c1a6babc57/changed-methods/org.elasticsearch.action.DocWriteResponse/readFrom(StreamInput)/right-left-lines.csv
+elasticsearch/d896886973660785aac45275ddb110c1a6babc57/changed-methods/org.elasticsearch.action.DocWriteResponse/readFrom(StreamInput)/left-right-lines.csv
+elasticsearch/d896886973660785aac45275ddb110c1a6babc57/changed-methods/org.elasticsearch.action.DocWriteResponse/writeTo(StreamOutput)/right-left-lines.csv
+elasticsearch/d896886973660785aac45275ddb110c1a6babc57/changed-methods/org.elasticsearch.action.DocWriteResponse/writeTo(StreamOutput)/left-right-lines.csv
+elasticsearch/d896886973660785aac45275ddb110c1a6babc57/changed-methods/org.elasticsearch.action.DocWriteResponse/toXContent(XContentBuilder, Params)/right-left-lines.csv
+elasticsearch/d896886973660785aac45275ddb110c1a6babc57/changed-methods/org.elasticsearch.action.DocWriteResponse/toXContent(XContentBuilder, Params)/left-right-lines.csv
+elasticsearch/d896886973660785aac45275ddb110c1a6babc57/changed-methods/org.elasticsearch.action.support.replication.ReplicationOperation/execute()/right-left-lines.csv
+elasticsearch/d896886973660785aac45275ddb110c1a6babc57/changed-methods/org.elasticsearch.action.support.replication.ReplicationOperation/execute()/left-right-lines.csv
+elasticsearch/d896886973660785aac45275ddb110c1a6babc57/changed-methods/org.elasticsearch.action.delete.TransportDeleteAction/executeDeleteRequestOnPrimary(DeleteRequest, IndexShard)/right-left-lines.csv
+elasticsearch/d896886973660785aac45275ddb110c1a6babc57/changed-methods/org.elasticsearch.action.delete.TransportDeleteAction/executeDeleteRequestOnPrimary(DeleteRequest, IndexShard)/left-right-lines.csv
+elasticsearch/d896886973660785aac45275ddb110c1a6babc57/changed-methods/org.elasticsearch.common.settings.IndexScopedSettings/BUILT_IN_INDEX_SETTINGS/right-left-lines.csv
+elasticsearch/d896886973660785aac45275ddb110c1a6babc57/changed-methods/org.elasticsearch.common.settings.IndexScopedSettings/BUILT_IN_INDEX_SETTINGS/left-right-lines.csv
+elasticsearch/d896886973660785aac45275ddb110c1a6babc57/realistic/doRun()/changed-methods/org.elasticsearch.action.support.replication.TransportReplicationAction/doRun()/right-left-lines.csv
+elasticsearch/d896886973660785aac45275ddb110c1a6babc57/realistic/doRun()/changed-methods/org.elasticsearch.action.support.replication.TransportReplicationAction/doRun()/left-right-lines.csv
+elasticsearch/d896886973660785aac45275ddb110c1a6babc57/realistic/writeTo(StreamOutput)/changed-methods/org.elasticsearch.action.DocWriteResponse/writeTo(StreamOutput)/right-left-lines.csv
+elasticsearch/d896886973660785aac45275ddb110c1a6babc57/realistic/writeTo(StreamOutput)/changed-methods/org.elasticsearch.action.DocWriteResponse/writeTo(StreamOutput)/left-right-lines.csv
+elasticsearch/d896886973660785aac45275ddb110c1a6babc57/realistic/toXContent(XContentBuilder, Params)/changed-methods/org.elasticsearch.action.DocWriteResponse/toXContent(XContentBuilder, Params)/right-left-lines.csv
+elasticsearch/d896886973660785aac45275ddb110c1a6babc57/realistic/toXContent(XContentBuilder, Params)/changed-methods/org.elasticsearch.action.DocWriteResponse/toXContent(XContentBuilder, Params)/left-right-lines.csv
+elasticsearch/d896886973660785aac45275ddb110c1a6babc57/realistic/shardOperation(UpdateRequest, ActionListener<UpdateResponse>, int)/changed-methods/org.elasticsearch.action.update.TransportUpdateAction/shardOperation(UpdateRequest, ActionListener<UpdateResponse>, int)/left-right-lines.csv
+jenkins/48b2b951dfb3438999ceda330093cac82b857ce6/changed-methods/jenkins.slaves.DefaultJnlpSlaveReceiver/handle(String, JnlpSlaveHandshake)/right-left-lines.csv
+jenkins/48b2b951dfb3438999ceda330093cac82b857ce6/changed-methods/jenkins.slaves.DefaultJnlpSlaveReceiver/handle(String, JnlpSlaveHandshake)/left-right-lines.csv
+cucumber-jvm/4505c156b6267c1b760deec570ddbfe047b42aa9/changed-methods/cuke4duke.internal.java.JavaLanguage/load(String)/right-left-lines.csv
+cucumber-jvm/4505c156b6267c1b760deec570ddbfe047b42aa9/changed-methods/cuke4duke.internal.java.JavaLanguage/load(String)/left-right-lines.csv
+MPAndroidChart/9297923f09460d0484cd713b0abbeaea9b888ec0/changed-methods/com.xxmassdeveloper.mpchartexample.LineChartActivity1/onCreate(Bundle)/right-left-lines.csv
+MPAndroidChart/9297923f09460d0484cd713b0abbeaea9b888ec0/changed-methods/com.xxmassdeveloper.mpchartexample.LineChartActivity1/onCreate(Bundle)/left-right-lines.csv
+MPAndroidChart/9297923f09460d0484cd713b0abbeaea9b888ec0/changed-methods/com.xxmassdeveloper.mpchartexample.StackedBarActivityNegative/onCreate(Bundle)/right-left-lines.csv
+MPAndroidChart/9297923f09460d0484cd713b0abbeaea9b888ec0/changed-methods/com.xxmassdeveloper.mpchartexample.StackedBarActivityNegative/onCreate(Bundle)/left-right-lines.csv
+MPAndroidChart/9297923f09460d0484cd713b0abbeaea9b888ec0/changed-methods/com.xxmassdeveloper.mpchartexample.LineChartActivity2/onCreate(Bundle)/right-left-lines.csv
+MPAndroidChart/9297923f09460d0484cd713b0abbeaea9b888ec0/changed-methods/com.xxmassdeveloper.mpchartexample.LineChartActivity2/onCreate(Bundle)/left-right-lines.csv
+MPAndroidChart/9297923f09460d0484cd713b0abbeaea9b888ec0/changed-methods/com.xxmassdeveloper.mpchartexample.RadarChartActivitry/onCreate(Bundle)/right-left-lines.csv
+MPAndroidChart/9297923f09460d0484cd713b0abbeaea9b888ec0/changed-methods/com.xxmassdeveloper.mpchartexample.RadarChartActivitry/onCreate(Bundle)/left-right-lines.csv
+MPAndroidChart/9531ba69895cd64fce48038ffd8df2543eeea1d2/changed-methods/com.github.mikephil.charting.renderer.PieChartRenderer/drawData(Canvas)/right-left-lines.csv
+MPAndroidChart/9531ba69895cd64fce48038ffd8df2543eeea1d2/changed-methods/com.github.mikephil.charting.renderer.PieChartRenderer/drawData(Canvas)/left-right-lines.csv
+MPAndroidChart/af114d180da6ec5633d32c701ff5467f7629fcf3/changed-methods/com.xxmassdeveloper.mpchartexample.ScatterChartActivity/onProgressChanged(SeekBar, int, boolean)/right-left-lines.csv
+MPAndroidChart/af114d180da6ec5633d32c701ff5467f7629fcf3/changed-methods/com.xxmassdeveloper.mpchartexample.ScatterChartActivity/onProgressChanged(SeekBar, int, boolean)/left-right-lines.csv
+MPAndroidChart/af114d180da6ec5633d32c701ff5467f7629fcf3/changed-methods/com.xxmassdeveloper.mpchartexample.ScatterChartActivity/onCreate(Bundle)/right-left-lines.csv
+MPAndroidChart/af114d180da6ec5633d32c701ff5467f7629fcf3/changed-methods/com.xxmassdeveloper.mpchartexample.ScatterChartActivity/onCreate(Bundle)/left-right-lines.csv
+MPAndroidChart/af114d180da6ec5633d32c701ff5467f7629fcf3/changed-methods/com.xxmassdeveloper.mpchartexample.fragments.SimpleFragment/generateScatterData(int, float, int)/right-left-lines.csv
+MPAndroidChart/af114d180da6ec5633d32c701ff5467f7629fcf3/changed-methods/com.xxmassdeveloper.mpchartexample.fragments.SimpleFragment/generateScatterData(int, float, int)/left-right-lines.csv
+jsoup/fee4762322f85a1109edd75ccb67f38cf5008c80/changed-methods/org.jsoup.helper.HttpConnection/createConnection(Connection.Request)/right-left-lines.csv
+jsoup/fee4762322f85a1109edd75ccb67f38cf5008c80/changed-methods/org.jsoup.helper.HttpConnection/createConnection(Connection.Request)/left-right-lines.csv
+logback/542843fd04a793fb9e0eea0c84d199e66d7c15af/changed-methods/ch.qos.logback.core.rolling.TimeBasedFileNamingAndTriggeringPolicyBase/start()/right-left-lines.csv
+logback/542843fd04a793fb9e0eea0c84d199e66d7c15af/changed-methods/ch.qos.logback.core.rolling.TimeBasedFileNamingAndTriggeringPolicyBase/start()/left-right-lines.csv
+storm/ad2be678831b3b060229fd936e3908110162b7ac/changed-methods/org.apache.storm.kafka.spout.KafkaSpout/open(Map, TopologyContext, SpoutOutputCollector)/right-left-lines.csv
+storm/ad2be678831b3b060229fd936e3908110162b7ac/changed-methods/org.apache.storm.kafka.spout.KafkaSpout/open(Map, TopologyContext, SpoutOutputCollector)/left-right-lines.csv
+storm/ad2be678831b3b060229fd936e3908110162b7ac/changed-methods/org.apache.storm.kafka.spout.KafkaSpoutConfig/toString()/right-left-lines.csv
+storm/ad2be678831b3b060229fd936e3908110162b7ac/changed-methods/org.apache.storm.kafka.spout.KafkaSpoutConfig/toString()/left-right-lines.csv
+storm/ad2be678831b3b060229fd936e3908110162b7ac/changed-methods/org.apache.storm.kafka.spout.KafkaSpoutConfig/KafkaSpoutConfig(Builder<K,V>)/right-left-lines.csv
+storm/ad2be678831b3b060229fd936e3908110162b7ac/changed-methods/org.apache.storm.kafka.spout.KafkaSpoutConfig/KafkaSpoutConfig(Builder<K,V>)/left-right-lines.csv
+storm/bd1f5c54752f67b484a83c26667331234234d3a3/changed-methods/org.apache.storm.kafka.spout.KafkaSpout/emitTupleIfNotEmitted(ConsumerRecord<K,V>)/right-left-lines.csv
+storm/bd1f5c54752f67b484a83c26667331234234d3a3/changed-methods/org.apache.storm.kafka.spout.KafkaSpout/emitTupleIfNotEmitted(ConsumerRecord<K,V>)/left-right-lines.csv
+voldemort/4cc1c145819030c8e2baffe4c92383de14b8d880/changed-methods/voldemort.server.VoldemortConfig/VoldemortConfig(Props)/right-left-lines.csv
+voldemort/4cc1c145819030c8e2baffe4c92383de14b8d880/changed-methods/voldemort.server.VoldemortConfig/VoldemortConfig(Props)/left-right-lines.csv
+voldemort/b30fdfebe30c9b6e37b9fbc3fec0ff74cd19f997/changed-methods/voldemort.VoldemortClientShell/VoldemortClientShell(ClientConfig, String, BufferedReader, PrintStream, PrintStream)/right-left-lines.csv
+voldemort/b30fdfebe30c9b6e37b9fbc3fec0ff74cd19f997/changed-methods/voldemort.VoldemortClientShell/VoldemortClientShell(ClientConfig, String, BufferedReader, PrintStream, PrintStream)/left-right-lines.csv
+pushy/58901c846e4f0874977c5aabbc34bcb4de3670e0/changed-methods/com.relayrides.pushy.apns.PushManager/handleConnectionFailure(ApnsConnection<T>, Throwable)/right-left-lines.csv
+pushy/58901c846e4f0874977c5aabbc34bcb4de3670e0/changed-methods/com.relayrides.pushy.apns.PushManager/handleConnectionFailure(ApnsConnection<T>, Throwable)/left-right-lines.csv
+pushy/58901c846e4f0874977c5aabbc34bcb4de3670e0/changed-methods/com.relayrides.pushy.apns.PushManager/handleConnectionClosure(ApnsConnection<T>)/right-left-lines.csv
+pushy/58901c846e4f0874977c5aabbc34bcb4de3670e0/changed-methods/com.relayrides.pushy.apns.PushManager/handleConnectionClosure(ApnsConnection<T>)/left-right-lines.csv
+okhttp/35166168529bd27281685e56a0a122eff44460e9/changed-methods/com.squareup.okhttp.OkHttpClient/copyWithDefaults()/right-left-lines.csv
+okhttp/35166168529bd27281685e56a0a122eff44460e9/changed-methods/com.squareup.okhttp.OkHttpClient/copyWithDefaults()/left-right-lines.csv
+okhttp/35166168529bd27281685e56a0a122eff44460e9/realistic/copyWithDefaults()/changed-methods/com.squareup.okhttp.OkHttpClient/copyWithDefaults()/right-left-lines.csv
+okhttp/35166168529bd27281685e56a0a122eff44460e9/realistic/copyWithDefaults()/changed-methods/com.squareup.okhttp.OkHttpClient/copyWithDefaults()/left-right-lines.csv
+okhttp/1151c9853ccc3c9c3211c613b9b845b925f8c6a6/changed-methods/com.squareup.okhttp.internal.bytes.GzipSource/consumeHeader(Deadline)/right-left-lines.csv
+okhttp/1151c9853ccc3c9c3211c613b9b845b925f8c6a6/changed-methods/com.squareup.okhttp.internal.bytes.GzipSource/consumeHeader(Deadline)/left-right-lines.csv
+elasticsearch-river-mongodb/6b6ce8e851c6613213c4508c3f277a80649e0c7b/changed-methods/org.elasticsearch.river.mongodb.MongoDBRiverDefinition/parseSettings(String, String, RiverSettings, ScriptService)/right-left-lines.csv
+elasticsearch-river-mongodb/6b6ce8e851c6613213c4508c3f277a80649e0c7b/changed-methods/org.elasticsearch.river.mongodb.MongoDBRiverDefinition/parseSettings(String, String, RiverSettings, ScriptService)/left-right-lines.csv
+elasticsearch-river-mongodb/6b6ce8e851c6613213c4508c3f277a80649e0c7b/changed-methods/org.elasticsearch.river.mongodb.Slurper/addToStream(Operation, Timestamp<?>, DBObject, String)/right-left-lines.csv
+elasticsearch-river-mongodb/6b6ce8e851c6613213c4508c3f277a80649e0c7b/changed-methods/org.elasticsearch.river.mongodb.Slurper/addToStream(Operation, Timestamp<?>, DBObject, String)/left-right-lines.csv
+elasticsearch-river-mongodb/6b6ce8e851c6613213c4508c3f277a80649e0c7b/changed-methods/org.elasticsearch.river.mongodb.Slurper/run()/right-left-lines.csv
+elasticsearch-river-mongodb/6b6ce8e851c6613213c4508c3f277a80649e0c7b/changed-methods/org.elasticsearch.river.mongodb.Slurper/run()/left-right-lines.csv
+elasticsearch-river-mongodb/6b6ce8e851c6613213c4508c3f277a80649e0c7b/changed-methods/org.elasticsearch.river.mongodb.Indexer/applyAdvancedTransformation(QueueEntry, String)/right-left-lines.csv
+elasticsearch-river-mongodb/6b6ce8e851c6613213c4508c3f277a80649e0c7b/changed-methods/org.elasticsearch.river.mongodb.Indexer/applyAdvancedTransformation(QueueEntry, String)/left-right-lines.csv
+elasticsearch-river-mongodb/6b6ce8e851c6613213c4508c3f277a80649e0c7b/changed-methods/org.elasticsearch.river.mongodb.Indexer/processBlockingQueue(QueueEntry)/right-left-lines.csv
+elasticsearch-river-mongodb/6b6ce8e851c6613213c4508c3f277a80649e0c7b/changed-methods/org.elasticsearch.river.mongodb.Indexer/processBlockingQueue(QueueEntry)/left-right-lines.csv
+activiti/bf46684ba62f5883673ea8fb0a14aecfe0aedea2/changed-methods/org.activiti.engine.impl.bpmn.behavior.UserTaskActivityBehavior/execute(ActivityExecution)/right-left-lines.csv
+activiti/bf46684ba62f5883673ea8fb0a14aecfe0aedea2/changed-methods/org.activiti.engine.impl.bpmn.behavior.UserTaskActivityBehavior/execute(ActivityExecution)/left-right-lines.csv
+activiti/50d8e43eb5917c63abfbcdec1e68e510943f325a/changed-methods/org.activiti.engine.impl.persistence.entity.DeploymentEntityManager/deleteDeployment(String, boolean)/right-left-lines.csv
+activiti/50d8e43eb5917c63abfbcdec1e68e510943f325a/changed-methods/org.activiti.engine.impl.persistence.entity.DeploymentEntityManager/deleteDeployment(String, boolean)/left-right-lines.csv
+libgdx/da27e2dae56be0a159e82231e5c3a5b83b099063/changed-methods/com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application/newWindow(ApplicationListener, Lwjgl3WindowConfiguration)/right-left-lines.csv
+libgdx/da27e2dae56be0a159e82231e5c3a5b83b099063/changed-methods/com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application/newWindow(ApplicationListener, Lwjgl3WindowConfiguration)/left-right-lines.csv
+libgdx/da27e2dae56be0a159e82231e5c3a5b83b099063/changed-methods/com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration/copy(Lwjgl3ApplicationConfiguration)/right-left-lines.csv
+libgdx/da27e2dae56be0a159e82231e5c3a5b83b099063/changed-methods/com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration/copy(Lwjgl3ApplicationConfiguration)/left-right-lines.csv
+druid/05168808c278c080c59c19e858d9471b316cd1f5/changed-methods/com.metamx.druid.loading.S3SegmentPusher/push(File, DataSegment)/right-left-lines.csv
+druid/05168808c278c080c59c19e858d9471b316cd1f5/changed-methods/com.metamx.druid.loading.S3SegmentPusher/push(File, DataSegment)/left-right-lines.csv
+java-faker/ca42fcfaf45cae1754c58e02e1d5d2a58ec03561/changed-methods/com.github.javafaker.Faker/Faker(Locale, Random)/right-left-lines.csv
+java-faker/ca42fcfaf45cae1754c58e02e1d5d2a58ec03561/changed-methods/com.github.javafaker.Faker/Faker(Locale, Random)/left-right-lines.csv
+retrofit/2b6c719c6645f8e48dca6d0047c752069d321bc4/changed-methods/retrofit.RestAdapter/logAndReplaceRequest(Request)/right-left-lines.csv
+retrofit/2b6c719c6645f8e48dca6d0047c752069d321bc4/changed-methods/retrofit.RestAdapter/logAndReplaceRequest(Request)/left-right-lines.csv
+retrofit/2b6c719c6645f8e48dca6d0047c752069d321bc4/changed-methods/retrofit.RestAdapter/logAndReplaceResponse(String, Response, long)/right-left-lines.csv
+retrofit/2b6c719c6645f8e48dca6d0047c752069d321bc4/changed-methods/retrofit.RestAdapter/logAndReplaceResponse(String, Response, long)/left-right-lines.csv
+dropwizard/ddd15a681bf42360337844412cae4aba1556eb88/changed-methods/io.dropwizard.setup.Bootstrap/Bootstrap(Application<T>)/right-left-lines.csv
+dropwizard/ddd15a681bf42360337844412cae4aba1556eb88/changed-methods/io.dropwizard.setup.Bootstrap/Bootstrap(Application<T>)/left-right-lines.csv
+hector/213f7887ea70eabdf0705cf8454de29af89e8c38/changed-methods/me.prettyprint.cassandra.connection.HConnectionManager/operateWithFailover(Operation<?>)/right-left-lines.csv
+hector/213f7887ea70eabdf0705cf8454de29af89e8c38/changed-methods/me.prettyprint.cassandra.connection.HConnectionManager/operateWithFailover(Operation<?>)/left-right-lines.csv
+hector/0588608e7a2bdf974c985ff546207104f672bf6c/changed-methods/me.prettyprint.cassandra.connection.client.HSaslThriftClient/open()/right-left-lines.csv
+hector/0588608e7a2bdf974c985ff546207104f672bf6c/changed-methods/me.prettyprint.cassandra.connection.client.HSaslThriftClient/open()/left-right-lines.csv
+hector/a33a46506656a39d1b0f7780973905665d3b6145/changed-methods/me.prettyprint.cassandra.connection.client.HThriftClient/open()/right-left-lines.csv
+hector/a33a46506656a39d1b0f7780973905665d3b6145/changed-methods/me.prettyprint.cassandra.connection.client.HThriftClient/open()/left-right-lines.csv
+hector/a33a46506656a39d1b0f7780973905665d3b6145/changed-methods/me.prettyprint.cassandra.connection.client.HKerberosThriftClient/open()/right-left-lines.csv
+hector/a33a46506656a39d1b0f7780973905665d3b6145/changed-methods/me.prettyprint.cassandra.connection.client.HKerberosThriftClient/open()/left-right-lines.csv

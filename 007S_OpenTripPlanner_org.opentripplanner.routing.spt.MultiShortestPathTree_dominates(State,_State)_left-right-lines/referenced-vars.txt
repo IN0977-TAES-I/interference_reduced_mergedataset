@@ -1,0 +1,34 @@
+# class name : org.opentripplanner.routing.spt.MultiShortestPathTree
+# method name: dominates(State, State)
+# variables referenced in the affected region:
+List	external/inherited	roles=sink
+State	external/inherited	roles=sink
+Vertex	external/inherited	roles=sink
+an	external/inherited	roles=sink
+as	external/inherited	roles=sink
+been	external/inherited	roles=sink
+dest	external/inherited	roles=sink
+has	external/inherited	roles=sink
+indicates	external/inherited	roles=sink
+it	declared-in-file	roles=sink
+not	external/inherited	roles=sink
+on	external/inherited	roles=sink
+optimal	external/inherited	roles=sink
+out	external/inherited	roles=sink
+path	external/inherited	roles=sink
+ruled	external/inherited	roles=sink
+shortest	external/inherited	roles=sink
+state	external/inherited	roles=sink
+stateSets	declared-in-file	roles=sink
+that	external/inherited	roles=sink
+which	external/inherited	roles=sink
+
+# per-line detail:
+source:123	
+sink:141	List,State,Vertex,dest
+sink:144	
+sink:146	
+sink:147	stateSets
+sink:148	
+sink:149	
+sink:152	which,indicates,that,it,has,not,been,ruled,out,as,state,on,an,optimal,path,shortest

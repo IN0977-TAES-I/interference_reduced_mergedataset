@@ -1,0 +1,31 @@
+# class name : org.elasticsearch.river.mongodb.MongoDBRiverDefinition
+# method name: parseSettings(String, String, RiverSettings, ScriptService)
+# variables referenced in the affected region:
+DBObject	external/inherited	roles=sink
+MongoDBRiver	external/inherited	roles=source
+coll	declared-in-file	roles=source
+cursor	declared-in-file	roles=source
+entry	declared-in-file	roles=source
+findKeys	declared-in-file	roles=sink
+item	declared-in-file	roles=sink
+logger	declared-in-file	roles=sink
+operation	declared-in-file	roles=source
+oplogOperations	declared-in-file	roles=source
+slurpedCollection	declared-in-file	roles=sink
+time	declared-in-file	roles=source
+update	declared-in-file	roles=sink
+
+# per-line detail:
+source:490	operation,MongoDBRiver
+source:515	coll
+source:576	
+source:582	oplogOperations,operation
+source:617	
+source:635	entry,MongoDBRiver
+source:670	cursor,time
+sink:683	
+sink:686	logger
+sink:699	DBObject,item,slurpedCollection,update,findKeys
+sink:703	
+sink:714	
+sink:717	

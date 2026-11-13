@@ -1,0 +1,65 @@
+# scenario   : 006S
+# project    : netty
+# commit     : 193acdb36cd3da9bfc62dd69c4208dff3f0a2b1b
+# class name : org.jboss.netty.handler.codec.frame.LengthFieldBasedFrameDecoder
+# method name: decode(ChannelHandlerContext, Channel, ChannelBuffer)
+# side       : right (right-left-lines.csv)
+sink@org.jboss.netty.handler.codec.frame.LengthFieldBasedFrameDecoder.decode(ChannelHandlerContext, Channel, ChannelBuffer):322:         }
+source@org.jboss.netty.handler.codec.frame.LengthFieldBasedFrameDecoder.decode(ChannelHandlerContext, Channel, ChannelBuffer):358:                     "than initialBytesToStrip: " + initialBytesToStrip);
+source@org.jboss.netty.handler.codec.frame.LengthFieldBasedFrameDecoder.decode(ChannelHandlerContext, Channel, ChannelBuffer):360:         buffer.skipBytes(initialBytesToStrip);
+sink@org.jboss.netty.handler.codec.frame.LengthFieldBasedFrameDecoder.decode(ChannelHandlerContext, Channel, ChannelBuffer):374:             long tooLongFrameLength = this.tooLongFrameLength;
+
+# same region in merge.java (scenario update):
+merge:322:             failIfNecessary(ctx, false);
+merge:323:             return null;
+merge:324:         }
+merge:325: 
+merge:326:         if (buffer.readableBytes() < lengthFieldEndOffset) {
+merge:327:             return null;
+merge:328:         }
+merge:329: 
+merge:330:         int actualLengthFieldOffset = buffer.readerIndex() + lengthFieldOffset;
+merge:331:         long frameLength;
+merge:332:         switch (lengthFieldLength) {
+merge:333:         case 1:
+merge:334:             frameLength = buffer.getUnsignedByte(actualLengthFieldOffset);
+merge:335:             break;
+merge:336:         case 2:
+merge:337:             frameLength = buffer.getUnsignedShort(actualLengthFieldOffset);
+merge:338:             break;
+merge:339:         case 3:
+merge:340:             frameLength = buffer.getUnsignedMedium(actualLengthFieldOffset);
+merge:341:             break;
+merge:342:         case 4:
+merge:343:             frameLength = buffer.getUnsignedInt(actualLengthFieldOffset);
+merge:344:             break;
+merge:345:         case 8:
+merge:346:             frameLength = buffer.getLong(actualLengthFieldOffset);
+merge:347:             break;
+merge:348:         default:
+merge:349:             throw new Error("should not reach here");
+merge:350:         }
+merge:351: 
+merge:352:         if (frameLength < 0) {
+merge:353:             buffer.skipBytes(lengthFieldEndOffset);
+merge:354:             throw new CorruptedFrameException(
+merge:355:                     "negative pre-adjustment length field: " + frameLength);
+merge:356:         }
+merge:357: 
+merge:358:         if (!lengthFieldIncludedInFrameLength) {
+merge:359:             frameLength += lengthAdjustment + lengthFieldEndOffset;
+merge:360:         }
+merge:361:         if (frameLength < lengthFieldEndOffset) {
+merge:362:             buffer.skipBytes(lengthFieldEndOffset);
+merge:363:             throw new CorruptedFrameException(
+merge:364:                     "Adjusted frame length (" + frameLength + ") is less " +
+merge:365:                     "than lengthFieldEndOffset: " + lengthFieldEndOffset);
+merge:366:         }
+merge:367: 
+merge:368:         if (frameLength > maxFrameLength) {
+merge:369:             // Enter the discard mode and discard everything received so far.
+merge:370:             discardingTooLongFrame = true;
+merge:371:             tooLongFrameLength = frameLength;
+merge:372:             bytesToDiscard = frameLength - buffer.readableBytes();
+merge:373:             buffer.skipBytes(buffer.readableBytes());
+merge:374:             failIfNecessary(ctx, true);

@@ -1,0 +1,10 @@
+# class name : com.github.kongchen.swagger.docgen.reader.AbstractReader
+# method name: hasValidAnnotations(List<Annotation>)
+# variables referenced in the affected region:
+RequestBody	external/inherited	roles=source,sink
+validParameterAnnotations	declared-in-file	roles=source,sink
+
+# per-line detail:
+source:342	validParameterAnnotations,RequestBody
+sink:342	validParameterAnnotations,RequestBody
+source:343	

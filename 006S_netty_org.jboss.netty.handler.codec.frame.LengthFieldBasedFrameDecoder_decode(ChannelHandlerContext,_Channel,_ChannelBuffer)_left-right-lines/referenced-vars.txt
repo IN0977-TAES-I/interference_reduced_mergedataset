@@ -1,0 +1,12 @@
+# class name : org.jboss.netty.handler.codec.frame.LengthFieldBasedFrameDecoder
+# method name: decode(ChannelHandlerContext, Channel, ChannelBuffer)
+# variables referenced in the affected region:
+frameLength	declared-in-file	roles=sink
+lengthAdjustment	declared-in-file	roles=sink
+lengthFieldEndOffset	declared-in-file	roles=sink
+
+# per-line detail:
+source:322	
+sink:358	frameLength,lengthAdjustment,lengthFieldEndOffset
+sink:360	frameLength,lengthFieldEndOffset
+source:374	

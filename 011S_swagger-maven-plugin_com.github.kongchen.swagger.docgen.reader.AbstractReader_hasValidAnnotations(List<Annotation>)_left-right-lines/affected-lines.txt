@@ -1,0 +1,13 @@
+# scenario   : 011S
+# project    : swagger-maven-plugin
+# commit     : e825a7fdc6ef688f1253b93d2cb236e710acfc56
+# class name : com.github.kongchen.swagger.docgen.reader.AbstractReader
+# method name: hasValidAnnotations(List<Annotation>)
+# side       : left (left-right-lines.csv)
+sink@com.github.kongchen.swagger.docgen.reader.AbstractReader.hasValidAnnotations(List<Annotation>):342:         validParameterAnnotations.add(RequestParam.class);
+source@com.github.kongchen.swagger.docgen.reader.AbstractReader.hasValidAnnotations(List<Annotation>):342:         validParameterAnnotations.add(RequestParam.class);
+sink@com.github.kongchen.swagger.docgen.reader.AbstractReader.hasValidAnnotations(List<Annotation>):343:         validParameterAnnotations.add(RequestBody.class);
+
+# same region in merge.java (scenario update):
+merge:342:         validParameterAnnotations.add(RequestParam.class);
+merge:343:         validParameterAnnotations.add(PathVariable.class);

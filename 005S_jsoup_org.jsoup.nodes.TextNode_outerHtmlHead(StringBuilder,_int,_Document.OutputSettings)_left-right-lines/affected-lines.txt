@@ -1,0 +1,15 @@
+# scenario   : 005S
+# project    : jsoup
+# commit     : a44e18aa3c1fcd25a68a5965f9490d8f7d026509
+# class name : org.jsoup.nodes.TextNode
+# method name: outerHtmlHead(StringBuilder, int, Document.OutputSettings)
+# side       : left (left-right-lines.csv)
+sink@org.jsoup.nodes.TextNode.outerHtmlHead(StringBuilder, int, Document.OutputSettings):94:         if (out.prettyPrint() && parent() instanceof Element && !Element.preserveWhitespace((Element) parent())) {
+source@org.jsoup.nodes.TextNode.outerHtmlHead(StringBuilder, int, Document.OutputSettings):98:         if (out.prettyPrint() && siblingIndex() == 0 && parentNode instanceof Element && ((Element) parentNode).tag().formatAsBlock() && !isBlank())
+
+# same region in merge.java (scenario update):
+merge:94:         if (out.prettyPrint() && parent() instanceof Element && !Element.preserveWhitespace((Element) parent())) {
+merge:95:             html = normaliseWhitespace(html);
+merge:96:         }
+merge:97: 
+merge:98:         if (out.prettyPrint() && ((siblingIndex() == 0 && parentNode instanceof Element && ((Element) parentNode).tag().formatAsBlock() && !isBlank()) || (out.forceAllElementAsBlock() && siblingNodes().size()>0 && !isBlank()) )) 
