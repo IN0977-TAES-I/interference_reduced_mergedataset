@@ -1,5 +1,5 @@
 class DirectRestServiceInterfaceClassCreator {
-    void getMethodCallback_JMethod_() {
+    private String getMethodCallback(JMethod method) {
         if (isVoidMethod(method)) {
             return "org.fusesource.restygwt.client.MethodCallback<java.lang.Void> callback";
         }

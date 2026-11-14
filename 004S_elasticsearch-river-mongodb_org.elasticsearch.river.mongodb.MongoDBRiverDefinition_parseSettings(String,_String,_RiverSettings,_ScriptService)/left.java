@@ -1,234 +1,341 @@
-
-
-
-
 class MongoDBRiverDefinition {
-    void parseSettings_String__String__RiverSettings__ScriptService_() {
-                    if (operation.equals(MongoDBRiver.OPLOG_COMMAND_OPERATION)) {
-                        DBObject object = (DBObject) op.get(MongoDBRiver.OPLOG_OBJECT);
-                        if (object.containsField(MongoDBRiver.OPLOG_CREATE_COMMAND)) {
-                            continue;
+    static ESLogger logger;
+    static String DEFAULT_DB_HOST;
+    static int DEFAULT_DB_PORT;
+    static int DEFAULT_BULK_ACTIONS;
+    static TimeValue DEFAULT_FLUSH_INTERVAL;
+    static ByteSizeValue DEFAULT_BULK_SIZE;
+    static int DEFAULT_CONNECT_TIMEOUT;
+    static int DEFAULT_SOCKET_TIMEOUT;
+    static String DB_FIELD;
+    static String SERVERS_FIELD;
+    static String HOST_FIELD;
+    static String PORT_FIELD;
+    static String OPTIONS_FIELD;
+    static String SECONDARY_READ_PREFERENCE_FIELD;
+    static String CONNECT_TIMEOUT;
+    static String SOCKET_TIMEOUT;
+    static String SSL_CONNECTION_FIELD;
+    static String SSL_VERIFY_CERT_FIELD;
+    static String IS_MONGOS_FIELD;
+    static String DROP_COLLECTION_FIELD;
+    static String EXCLUDE_FIELDS_FIELD;
+    static String INCLUDE_FIELDS_FIELD;
+    static String INCLUDE_COLLECTION_FIELD;
+    static String INITIAL_TIMESTAMP_FIELD;
+    static String INITIAL_TIMESTAMP_SCRIPT_TYPE_FIELD;
+    static String INITIAL_TIMESTAMP_SCRIPT_FIELD;
+    static String ADVANCED_TRANSFORMATION_FIELD;
+    static String SKIP_INITIAL_IMPORT_FIELD;
+    static String PARENT_TYPES_FIELD;
+    static String STORE_STATISTICS_FIELD;
+    static String IMPORT_ALL_COLLECTIONS_FIELD;
+    static String DISABLE_INDEX_REFRESH_FIELD;
+    static String FILTER_FIELD;
+    static String CREDENTIALS_FIELD;
+    static String USER_FIELD;
+    static String PASSWORD_FIELD;
+    static String AUTH_FIELD;
+    static String SCRIPT_FIELD;
+    static String SCRIPT_TYPE_FIELD;
+    static String COLLECTION_FIELD;
+    static String GRIDFS_FIELD;
+    static String INDEX_OBJECT;
+    static String NAME_FIELD;
+    static String TYPE_FIELD;
+    static String LOCAL_DB_FIELD;
+    static String ADMIN_DB_FIELD;
+    static String THROTTLE_SIZE_FIELD;
+    static String BULK_SIZE_FIELD;
+    static String BULK_TIMEOUT_FIELD;
+    static String CONCURRENT_BULK_REQUESTS_FIELD;
+    static String BULK_FIELD;
+    static String ACTIONS_FIELD;
+    static String SIZE_FIELD;
+    static String CONCURRENT_REQUESTS_FIELD;
+    static String FLUSH_INTERVAL_FIELD;
+
+    @SuppressWarnings("unchecked")
+    public synchronized static MongoDBRiverDefinition parseSettings(String riverName, String riverIndexName, RiverSettings settings,
+            ScriptService scriptService) {
+
+        logger.info("Parse river settings for {}", riverName);
+        Preconditions.checkNotNull(riverName, "No riverName specified");
+        Preconditions.checkNotNull(riverIndexName, "No riverIndexName specified");
+        Preconditions.checkNotNull(settings, "No settings specified");
+
+        Builder builder = new Builder();
+        builder.riverName(riverName);
+        builder.riverIndexName(riverIndexName);
+
+        List<ServerAddress> mongoServers = new ArrayList<ServerAddress>();
+        String mongoHost;
+        int mongoPort;
+
+        if (settings.settings().containsKey(MongoDBRiver.TYPE)) {
+            Map<String, Object> mongoSettings = (Map<String, Object>) settings.settings().get(MongoDBRiver.TYPE);
+            if (mongoSettings.containsKey(SERVERS_FIELD)) {
+                Object mongoServersSettings = mongoSettings.get(SERVERS_FIELD);
+                logger.trace("mongoServersSettings: " + mongoServersSettings);
+                boolean array = XContentMapValues.isArray(mongoServersSettings);
+
+                if (array) {
+                    ArrayList<Map<String, Object>> feeds = (ArrayList<Map<String, Object>>) mongoServersSettings;
+                    for (Map<String, Object> feed : feeds) {
+                        mongoHost = XContentMapValues.nodeStringValue(feed.get(HOST_FIELD), null);
+                        mongoPort = XContentMapValues.nodeIntegerValue(feed.get(PORT_FIELD), DEFAULT_DB_PORT);
+                        logger.info("Server: " + mongoHost + " - " + mongoPort);
+                        try {
+                            mongoServers.add(new ServerAddress(mongoHost, mongoPort));
+                        } catch (UnknownHostException uhEx) {
+                            logger.warn("Cannot add mongo server {}:{}", uhEx, mongoHost, mongoPort);
                         }
                     }
-                    entry.putAll(op);
-                }
-            } catch (ClassCastException e) {
-                logger.error(e.toString(), e);
-            }
-        }
-    }
-
-    private void processAdminCommandOplogEntry(final DBObject entry, final Timestamp<?> startTimestamp) throws InterruptedException {
-        if (logger.isTraceEnabled()) {
-            logger.trace("processAdminCommandOplogEntry - [{}]", entry);
-        }
-        DBObject object = (DBObject) entry.get(MongoDBRiver.OPLOG_OBJECT);
-        if (definition.isImportAllCollections()) {
-            if (object.containsField(MongoDBRiver.OPLOG_RENAME_COLLECTION_COMMAND_OPERATION) && object.containsField(MongoDBRiver.OPLOG_TO)) {
-                String to = object.get(MongoDBRiver.OPLOG_TO).toString();
-                if (to.startsWith(definition.getMongoDb())) {
-                    String newCollection = getCollectionFromNamespace(to);
-                    DBCollection coll = slurpedDb.getCollection(newCollection);
-                    doInitialImport(coll);
-                }
-            }
-        }
-    }
-
-    private String getCollectionFromNamespace(String namespace) {
-        if (namespace.startsWith(definition.getMongoDb()) && CharMatcher.is('.').countIn(namespace) == 1) {
-            return namespace.substring(definition.getMongoDb().length() + 1);
-        }
-        logger.info("Cannot get collection from namespace [{}]", namespace);
-        return null;
-    }
-
-    private boolean isValidOplogEntry(final DBObject entry, final Timestamp<?> startTimestamp) {
-        if (MongoDBRiver.OPLOG_NOOP_OPERATION.equals(entry.get(MongoDBRiver.OPLOG_OPERATION))) {
-            logger.debug("[No-op Oplog Entry] - can be ignored. {}", entry);
-            return false;
-        }
-        String namespace = (String) entry.get(MongoDBRiver.OPLOG_NAMESPACE);
-
-
-
-        if (entry.containsField(MongoDBRiver.OPLOG_FROM_MIGRATE) && ((BasicBSONObject) entry).getBoolean(MongoDBRiver.OPLOG_FROM_MIGRATE)) {
-            logger.debug("[Invalid Oplog Entry] - from migration or sharding operation. Can be ignored. {}", entry);
-            return false;
-        }
-
-        if (namespace.endsWith(MongoDBRiver.GRIDFS_CHUNKS_SUFFIX)) {
-            return false;
-        }
-
-        if (startTimestamp != null) {
-            Timestamp<?> oplogTimestamp = Timestamp.on(entry);
-            if (Timestamp.compare(oplogTimestamp, startTimestamp) < 0) {
-                logger.debug("[Invalid Oplog Entry] - entry timestamp [{}] before startTimestamp [{}]", entry, startTimestamp);
-                return false;
-            }
-        }
-
-        boolean validNamespace = false;
-        if (definition.isMongoGridFS()) {
-            validNamespace = gridfsOplogNamespace.equals(namespace);
-        } else {
-            if (definition.isImportAllCollections()) {
-
-                if (namespace.startsWith(definition.getMongoDb()) && !namespace.startsWith(definition.getMongoDb() + ".tmp.mr")) {
-                    validNamespace = true;
                 }
             } else {
-                if (definition.getMongoOplogNamespace().equals(namespace)) {
-                    validNamespace = true;
+                mongoHost = XContentMapValues.nodeStringValue(mongoSettings.get(HOST_FIELD), DEFAULT_DB_HOST);
+                mongoPort = XContentMapValues.nodeIntegerValue(mongoSettings.get(PORT_FIELD), DEFAULT_DB_PORT);
+                try {
+                    mongoServers.add(new ServerAddress(mongoHost, mongoPort));
+                } catch (UnknownHostException uhEx) {
+                    logger.warn("Cannot add mongo server {}:{}", uhEx, mongoHost, mongoPort);
                 }
             }
-            if (cmdOplogNamespace.equals(namespace)) {
-                validNamespace = true;
-            }
+            builder.mongoServers(mongoServers);
 
-            if (MongoDBRiver.OPLOG_ADMIN_COMMAND.equals(namespace)) {
-                validNamespace = true;
-            }
-        }
-        if (!validNamespace) {
-            logger.debug("[Invalid Oplog Entry] - namespace [{}] is not valid", namespace);
-            return false;
-        }
-        String operation = (String) entry.get(MongoDBRiver.OPLOG_OPERATION);
-        if (!oplogOperations.contains(operation)) {
-            logger.debug("[Invalid Oplog Entry] - operation [{}] is not valid", operation);
-            return false;
-        }
+            MongoClientOptions.Builder mongoClientOptionsBuilder = MongoClientOptions.builder()
+            .socketKeepAlive(true);
 
+            if (mongoSettings.containsKey(OPTIONS_FIELD)) {
+                Map<String, Object> mongoOptionsSettings = (Map<String, Object>) mongoSettings.get(OPTIONS_FIELD);
+                logger.trace("mongoOptionsSettings: " + mongoOptionsSettings);
+                builder.mongoSecondaryReadPreference(XContentMapValues.nodeBooleanValue(
+                        mongoOptionsSettings.get(SECONDARY_READ_PREFERENCE_FIELD), false));
+                builder.connectTimeout(XContentMapValues.nodeIntegerValue(mongoOptionsSettings.get(CONNECT_TIMEOUT),
+                        DEFAULT_CONNECT_TIMEOUT));
+                builder.socketTimeout(XContentMapValues.nodeIntegerValue(mongoOptionsSettings.get(SOCKET_TIMEOUT), DEFAULT_SOCKET_TIMEOUT));
+                builder.dropCollection(XContentMapValues.nodeBooleanValue(mongoOptionsSettings.get(DROP_COLLECTION_FIELD), false));
+                String isMongos = XContentMapValues.nodeStringValue(mongoOptionsSettings.get(IS_MONGOS_FIELD), null);
+                if (isMongos != null) {
+                    builder.isMongos(Boolean.valueOf(isMongos));
+                }
+                builder.mongoUseSSL(XContentMapValues.nodeBooleanValue(mongoOptionsSettings.get(SSL_CONNECTION_FIELD), false));
+                builder.mongoSSLVerifyCertificate(XContentMapValues.nodeBooleanValue(mongoOptionsSettings.get(SSL_VERIFY_CERT_FIELD), true));
+                builder.advancedTransformation(XContentMapValues.nodeBooleanValue(mongoOptionsSettings.get(ADVANCED_TRANSFORMATION_FIELD),
+                        false));
+                builder.skipInitialImport(XContentMapValues.nodeBooleanValue(mongoOptionsSettings.get(SKIP_INITIAL_IMPORT_FIELD), false));
 
-        if (definition.getMongoOplogFilter() != null) {
-            DBObject object = (DBObject) entry.get(MongoDBRiver.OPLOG_OBJECT);
-            BasicDBObject filter = definition.getMongoOplogFilter();
-            if (!filterMatch(filter, object)) {
-                logger.debug("[Invalid Oplog Entry] - filter [{}] does not match object [{}]", filter, object);
-                return false;
-            }
-        }
-        return true;
-    }
+                mongoClientOptionsBuilder.connectTimeout(builder.connectTimeout).socketTimeout(builder.socketTimeout);
 
-    private boolean filterMatch(DBObject filter, DBObject object) {
-        for (String key : filter.keySet()) {
-            if (!object.containsField(key)) {
-                return false;
-            }
-            if (!filter.get(key).equals(object.get(key))) {
-                return false;
-            }
-        }
-        return true;
-    }
+                if (builder.mongoSecondaryReadPreference) {
+                    mongoClientOptionsBuilder.readPreference(ReadPreference.secondaryPreferred());
+                }
 
-    private DBObject applyFieldFilter(DBObject object) {
-        if (object instanceof GridFSFile) {
-            GridFSFile file = (GridFSFile) object;
-            DBObject metadata = file.getMetaData();
-            if (metadata != null) {
-                file.setMetaData(applyFieldFilter(metadata));
-            }
-        } else {
-            object = MongoDBHelper.applyExcludeFields(object, definition.getExcludeFields());
-            object = MongoDBHelper.applyIncludeFields(object, definition.getIncludeFields());
-        }
-        return object;
-    }
+                if (builder.mongoUseSSL) {
+                    mongoClientOptionsBuilder.socketFactory(getSSLSocketFactory());
+                }
 
+                if (mongoOptionsSettings.containsKey(PARENT_TYPES_FIELD)) {
+                    Set<String> parentTypes = new HashSet<String>();
+                    Object parentTypesSettings = mongoOptionsSettings.get(PARENT_TYPES_FIELD);
+                    logger.debug("parentTypesSettings: " + parentTypesSettings);
+                    boolean array = XContentMapValues.isArray(parentTypesSettings);
 
-    private String getObjectIdFromOplogEntry(DBObject entry) {
-        if (entry.containsField(MongoDBRiver.OPLOG_OBJECT)) {
-            DBObject object = (DBObject) entry.get(MongoDBRiver.OPLOG_OBJECT);
-            if (object.containsField(MongoDBRiver.MONGODB_ID_FIELD)) {
-                return object.get(MongoDBRiver.MONGODB_ID_FIELD).toString();
-            }
-        }
-        if (entry.containsField(MongoDBRiver.OPLOG_UPDATE)) {
-            DBObject object = (DBObject) entry.get(MongoDBRiver.OPLOG_UPDATE);
-            if (object.containsField(MongoDBRiver.MONGODB_ID_FIELD)) {
-                return object.get(MongoDBRiver.MONGODB_ID_FIELD).toString();
-            }
-        }
-        return null;
-    }
+                    if (array) {
+                        ArrayList<String> fields = (ArrayList<String>) parentTypesSettings;
+                        for (String field : fields) {
+                            logger.debug("Field: " + field);
+                            parentTypes.add(field);
+                        }
+                    }
 
-    private DBCursor oplogCursor(final Timestamp<?> timestampOverride) throws SlurperException {
-        Timestamp<?> time = timestampOverride == null ? MongoDBRiver.getLastTimestamp(client, definition) : timestampOverride;
-        if (time == null) {
-            return null;
-        }
-        DBObject indexFilter = time.getOplogFilter();
-        if (indexFilter == null) {
-            return null;
-        }
+                    builder.parentTypes(parentTypes);
+                }
 
-        int options = Bytes.QUERYOPTION_TAILABLE | Bytes.QUERYOPTION_AWAITDATA | Bytes.QUERYOPTION_NOTIMEOUT
+                if (mongoOptionsSettings.containsKey(STORE_STATISTICS_FIELD)) {
+                    Object storeStatistics = mongoOptionsSettings.get(STORE_STATISTICS_FIELD);
+                    boolean object = XContentMapValues.isObject(storeStatistics);
+                    if (object) {
+                        Map<String, Object> storeStatisticsSettings = (Map<String, Object>) storeStatistics;
+                        builder.storeStatistics(true);
+                        builder.statisticsIndexName(XContentMapValues.nodeStringValue(storeStatisticsSettings.get(INDEX_OBJECT), riverName
+                                + "-stats"));
+                        builder.statisticsTypeName(XContentMapValues.nodeStringValue(storeStatisticsSettings.get(TYPE_FIELD), "stats"));
+                    } else {
+                        builder.storeStatistics(XContentMapValues.nodeBooleanValue(storeStatistics, false));
+                        if (builder.storeStatistics) {
+                            builder.statisticsIndexName(riverName + "-stats");
+                            builder.statisticsTypeName("stats");
+                        }
+                    }
+                }
+                builder.importAllCollections(XContentMapValues.nodeBooleanValue(mongoOptionsSettings.get(IMPORT_ALL_COLLECTIONS_FIELD),
+                        false));
+                builder.disableIndexRefresh(XContentMapValues.nodeBooleanValue(mongoOptionsSettings.get(DISABLE_INDEX_REFRESH_FIELD), false));
+                builder.includeCollection(XContentMapValues.nodeStringValue(mongoOptionsSettings.get(INCLUDE_COLLECTION_FIELD), ""));
 
+                if (mongoOptionsSettings.containsKey(INCLUDE_FIELDS_FIELD)) {
+                    Set<String> includeFields = new HashSet<String>();
+                    Object includeFieldsSettings = mongoOptionsSettings.get(INCLUDE_FIELDS_FIELD);
+                    logger.debug("includeFieldsSettings: " + includeFieldsSettings);
+                    boolean array = XContentMapValues.isArray(includeFieldsSettings);
 
-                | Bytes.QUERYOPTION_OPLOGREPLAY;
+                    if (array) {
+                        ArrayList<String> fields = (ArrayList<String>) includeFieldsSettings;
+                        for (String field : fields) {
+                            logger.debug("Field: " + field);
+                            includeFields.add(field);
+                        }
+                    }
 
-        DBCursor cursor = oplogCollection.find(indexFilter).setOptions(options);
+                    if (!includeFields.contains(MongoDBRiver.MONGODB_ID_FIELD)) {
+                        includeFields.add(MongoDBRiver.MONGODB_ID_FIELD);
+                    }
+                    builder.includeFields(includeFields);
+                } else if (mongoOptionsSettings.containsKey(EXCLUDE_FIELDS_FIELD)) {
+                    Set<String> excludeFields = new HashSet<String>();
+                    Object excludeFieldsSettings = mongoOptionsSettings.get(EXCLUDE_FIELDS_FIELD);
+                    logger.debug("excludeFieldsSettings: " + excludeFieldsSettings);
+                    boolean array = XContentMapValues.isArray(excludeFieldsSettings);
 
+                    if (array) {
+                        ArrayList<String> fields = (ArrayList<String>) excludeFieldsSettings;
+                        for (String field : fields) {
+                            logger.debug("Field: " + field);
+                            excludeFields.add(field);
+                        }
+                    }
 
-        if (indexFilter.containsField(MongoDBRiver.MONGODB_ID_FIELD)) {
-            cursor = cursor.hint("_id_");
-        }
-        isRiverStale(cursor, time);
-        return cursor;
-    }
+                    builder.excludeFields(excludeFields);
+                }
 
-    private void isRiverStale(DBCursor cursor, Timestamp<?> time) throws SlurperException {
-        if (cursor == null || time == null) {
-            return;
-        }
-        if (definition.getInitialTimestamp() != null && time.equals(definition.getInitialTimestamp())) {
-            return;
-        }
-        DBObject entry = cursor.next();
-        Timestamp<?> oplogTimestamp = Timestamp.on(entry);
-        if (!time.equals(oplogTimestamp)) {
-            MongoDBRiverHelper.setRiverStatus(client, definition.getRiverName(), Status.RIVER_STALE);
-            throw new SlurperException("River out of sync with oplog.rs collection");
-        }
-    }
+                if (mongoOptionsSettings.containsKey(INITIAL_TIMESTAMP_FIELD)) {
+                    BSONTimestamp timeStamp = null;
+                    try {
+                        Map<String, Object> initalTimestampSettings = (Map<String, Object>) mongoOptionsSettings
+                                .get(INITIAL_TIMESTAMP_FIELD);
+                        String scriptType = "js";
+                        if (initalTimestampSettings.containsKey(INITIAL_TIMESTAMP_SCRIPT_TYPE_FIELD)) {
+                            scriptType = initalTimestampSettings.get(INITIAL_TIMESTAMP_SCRIPT_TYPE_FIELD).toString();
+                        }
+                        if (initalTimestampSettings.containsKey(INITIAL_TIMESTAMP_SCRIPT_FIELD)) {
 
-    private void addQueryToStream(final Operation operation, final Timestamp<?> currentTimestamp, final DBObject update,
-            final String collection) throws InterruptedException {
-        if (logger.isTraceEnabled()) {
-            logger.trace("addQueryToStream - operation [{}], currentTimestamp [{}], update [{}]", operation, currentTimestamp, update);
-        }
-
-        if (collection == null) {
-            for (String name : slurpedDb.getCollectionNames()) {
-                DBCollection slurpedCollection = slurpedDb.getCollection(name);
-                for (DBObject item : slurpedCollection.find(update, findKeys)) {
-                    addToStream(operation, currentTimestamp, item, collection);
+                            ExecutableScript scriptExecutable = scriptService.executable(scriptType,
+                                    initalTimestampSettings.get(INITIAL_TIMESTAMP_SCRIPT_FIELD).toString(), ScriptService.ScriptType.INLINE, Maps.newHashMap());
+                            Object ctx = scriptExecutable.run();
+                            logger.trace("initialTimestamp script returned: {}", ctx);
+                            if (ctx != null) {
+                                long timestamp = Long.parseLong(ctx.toString());
+                                timeStamp = new BSONTimestamp((int) (new Date(timestamp).getTime() / 1000), 1);
+                            }
+                        }
+                    } catch (Throwable t) {
+                        logger.warn("Could set initial timestamp", t, new Object());
+                    } finally {
+                        builder.initialTimestamp(timeStamp);
+                    }
                 }
             }
-        } else {
-            DBCollection slurpedCollection = slurpedDb.getCollection(collection);
-            for (DBObject item : slurpedCollection.find(update, findKeys)) {
-                addToStream(operation, currentTimestamp, item, collection);
+            builder.mongoClientOptions(mongoClientOptionsBuilder.build());
+
+            if (mongoSettings.containsKey(CREDENTIALS_FIELD)) {
+                String dbCredential;
+                String mau = "";
+                String map = "";
+                String maad = "";
+                String mlu = "";
+                String mlp = "";
+                String mlad = "";
+                Object mongoCredentialsSettings = mongoSettings.get(CREDENTIALS_FIELD);
+                boolean array = XContentMapValues.isArray(mongoCredentialsSettings);
+
+                if (array) {
+                    ArrayList<Map<String, Object>> credentials = (ArrayList<Map<String, Object>>) mongoCredentialsSettings;
+                    for (Map<String, Object> credential : credentials) {
+                        dbCredential = XContentMapValues.nodeStringValue(credential.get(DB_FIELD), null);
+                        if (ADMIN_DB_FIELD.equals(dbCredential)) {
+                            mau = XContentMapValues.nodeStringValue(credential.get(USER_FIELD), null);
+                            map = XContentMapValues.nodeStringValue(credential.get(PASSWORD_FIELD), null);
+                            maad = XContentMapValues.nodeStringValue(credential.get(AUTH_FIELD), null);
+                        } else if (LOCAL_DB_FIELD.equals(dbCredential)) {
+                            mlu = XContentMapValues.nodeStringValue(credential.get(USER_FIELD), null);
+                            mlp = XContentMapValues.nodeStringValue(credential.get(PASSWORD_FIELD), null);
+                            mlad = XContentMapValues.nodeStringValue(credential.get(AUTH_FIELD), null);
+                        }
+                    }
+                }
+                builder.mongoAdminUser(mau);
+                builder.mongoAdminPassword(map);
+                builder.mongoAdminAuthDatabase(maad);
+                builder.mongoLocalUser(mlu);
+                builder.mongoLocalPassword(mlp);
+                builder.mongoLocalAuthDatabase(mlad);
             }
-        }
-    }
 
-    private String addInsertToStream(final Timestamp<?> currentTimestamp, final DBObject data) throws InterruptedException {
-        return addInsertToStream(currentTimestamp, data, definition.getMongoCollection());
-    }
+            builder.mongoDb(XContentMapValues.nodeStringValue(mongoSettings.get(DB_FIELD), riverName));
+            builder.mongoCollection(XContentMapValues.nodeStringValue(mongoSettings.get(COLLECTION_FIELD), riverName));
+            builder.mongoGridFS(XContentMapValues.nodeBooleanValue(mongoSettings.get(GRIDFS_FIELD), false));
+            if (mongoSettings.containsKey(FILTER_FIELD)) {
+                String filter = XContentMapValues.nodeStringValue(mongoSettings.get(FILTER_FIELD), "");
+                filter = removePrefix("o.", filter);
+                builder.mongoCollectionFilter(convertToBasicDBObject(filter));
+                builder.mongoOplogFilter(convertToBasicDBObject(removePrefix("o.", filter)));
+            }
 
-    private String addInsertToStream(final Timestamp<?> currentTimestamp, final DBObject data, final String collection)
-            throws InterruptedException {
-        totalDocuments.incrementAndGet();
-        addToStream(Operation.INSERT, currentTimestamp, data, collection);
-        if (data == null) {
-            return null;
+            if (mongoSettings.containsKey(SCRIPT_FIELD)) {
+                String scriptType = "js";
+                builder.script(mongoSettings.get(SCRIPT_FIELD).toString());
+                if (mongoSettings.containsKey("scriptType")) {
+                    scriptType = mongoSettings.get("scriptType").toString();
+                } else if (mongoSettings.containsKey(SCRIPT_TYPE_FIELD)) {
+                    scriptType = mongoSettings.get(SCRIPT_TYPE_FIELD).toString();
+                }
+                builder.scriptType(scriptType);
+            }
         } else {
-            return data.containsField(MongoDBRiver.MONGODB_ID_FIELD) ? data.get(MongoDBRiver.MONGODB_ID_FIELD).toString() : null;
+            mongoHost = DEFAULT_DB_HOST;
+            mongoPort = DEFAULT_DB_PORT;
+            try {
+                mongoServers.add(new ServerAddress(mongoHost, mongoPort));
+                builder.mongoServers(mongoServers);
+            } catch (UnknownHostException e) {
+                e.printStackTrace();
+            }
+            builder.mongoDb(riverName);
+            builder.mongoCollection(riverName);
         }
+
+        if (settings.settings().containsKey(INDEX_OBJECT)) {
+            Map<String, Object> indexSettings = (Map<String, Object>) settings.settings().get(INDEX_OBJECT);
+            builder.indexName(XContentMapValues.nodeStringValue(indexSettings.get(NAME_FIELD), builder.mongoDb));
+            builder.typeName(XContentMapValues.nodeStringValue(indexSettings.get(TYPE_FIELD), builder.mongoDb));
+
+            Bulk.Builder bulkBuilder = new Bulk.Builder();
+            if (indexSettings.containsKey(BULK_FIELD)) {
+                Map<String, Object> bulkSettings = (Map<String, Object>) indexSettings.get(BULK_FIELD);
+                int bulkActions = XContentMapValues.nodeIntegerValue(bulkSettings.get(ACTIONS_FIELD), DEFAULT_BULK_ACTIONS);
+                bulkBuilder.bulkActions(bulkActions);
+                String size = XContentMapValues.nodeStringValue(bulkSettings.get(SIZE_FIELD), DEFAULT_BULK_SIZE.toString());
+                bulkBuilder.bulkSize(ByteSizeValue.parseBytesSizeValue(size));
+                bulkBuilder.concurrentRequests(XContentMapValues.nodeIntegerValue(bulkSettings.get(CONCURRENT_REQUESTS_FIELD),
+                        EsExecutors.boundedNumberOfProcessors(ImmutableSettings.EMPTY)));
+                bulkBuilder.flushInterval(XContentMapValues.nodeTimeValue(bulkSettings.get(FLUSH_INTERVAL_FIELD), DEFAULT_FLUSH_INTERVAL));
+                builder.throttleSize(XContentMapValues.nodeIntegerValue(indexSettings.get(THROTTLE_SIZE_FIELD), bulkActions * 5));
+            } else {
+                int bulkActions = XContentMapValues.nodeIntegerValue(indexSettings.get(BULK_SIZE_FIELD), DEFAULT_BULK_ACTIONS);
+                bulkBuilder.bulkActions(bulkActions);
+                bulkBuilder.bulkSize(DEFAULT_BULK_SIZE);
+                bulkBuilder.flushInterval(XContentMapValues.nodeTimeValue(indexSettings.get(BULK_TIMEOUT_FIELD), DEFAULT_FLUSH_INTERVAL));
+                bulkBuilder.concurrentRequests(XContentMapValues.nodeIntegerValue(indexSettings.get(CONCURRENT_BULK_REQUESTS_FIELD),
+                        EsExecutors.boundedNumberOfProcessors(ImmutableSettings.EMPTY)));
+                builder.throttleSize(XContentMapValues.nodeIntegerValue(indexSettings.get(THROTTLE_SIZE_FIELD), bulkActions * 5));
+            }
+            builder.bulk(bulkBuilder.build());
+        } else {
+            builder.indexName(builder.mongoDb);
+            builder.typeName(builder.mongoDb);
+            builder.bulk(new Bulk.Builder().build());
+        }
+        return builder.build();
     }
 }

@@ -1,5 +1,16 @@
 class Slurper {
-    void assignCollections__() {
+    static ESLogger logger;
+    MongoDBRiverDefinition definition;
+    Mongo mongo;
+    DB slurpedDb;
+    DB oplogDb;
+    DBCollection oplogCollection;
+
+    protected boolean assignCollections() {
+        DB adminDb = mongo.getDB(MongoDBRiver.MONGODB_ADMIN_DATABASE);
+        oplogDb = mongo.getDB(MongoDBRiver.MONGODB_LOCAL_DATABASE);
+
+        if (!definition.getMongoAdminUser().isEmpty() && !definition.getMongoAdminPassword().isEmpty()) {
             logger.info("Authenticate {} with {}", MongoDBRiver.MONGODB_ADMIN_DATABASE, definition.getMongoAdminUser());
 
             CommandResult cmd = adminDb.authenticateCommand(definition.getMongoAdminUser(), definition.getMongoAdminPassword()
@@ -32,5 +43,7 @@ class Slurper {
             slurpedDb = adminDb.getMongo().getDB(definition.getMongoDb());
         }
 
+
+        return true;
     }
 }

@@ -1,5 +1,3 @@
 class SlangImplTest {
-    void ALL_EVENTS_SIZE() {
-        } catch (Exception e) {
-    }
+    private static final int ALL_EVENTS_SIZE = 22;
 }

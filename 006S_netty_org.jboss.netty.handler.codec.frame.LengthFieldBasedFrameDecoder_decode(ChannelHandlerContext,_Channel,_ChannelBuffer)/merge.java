@@ -1,5 +1,25 @@
 class LengthFieldBasedFrameDecoder {
-    void decode_ChannelHandlerContext__Channel__ChannelBuffer_() {
+    int maxFrameLength;
+    int lengthFieldOffset;
+    int lengthFieldLength;
+    int lengthFieldEndOffset;
+    int lengthAdjustment;
+    int initialBytesToStrip;
+    boolean lengthFieldIncludedInFrameLength;
+    boolean discardingTooLongFrame;
+    long tooLongFrameLength;
+    long bytesToDiscard;
+
+    @Override
+    protected Object decode(
+            ChannelHandlerContext ctx, Channel channel, ChannelBuffer buffer) throws Exception {
+
+        if (discardingTooLongFrame) {
+            long bytesToDiscard = this.bytesToDiscard;
+            int localBytesToDiscard = (int) Math.min(bytesToDiscard, buffer.readableBytes());
+            buffer.skipBytes(localBytesToDiscard);
+            bytesToDiscard -= localBytesToDiscard;
+            this.bytesToDiscard = bytesToDiscard;
             failIfNecessary(ctx, false);
             return null;
         }
@@ -52,5 +72,26 @@ class LengthFieldBasedFrameDecoder {
             bytesToDiscard = frameLength - buffer.readableBytes();
             buffer.skipBytes(buffer.readableBytes());
             failIfNecessary(ctx, true);
+            return null;
+        }
+
+        int frameLengthInt = (int) frameLength;
+        if (buffer.readableBytes() < frameLengthInt) {
+            return null;
+        }
+
+        if (initialBytesToStrip > frameLengthInt) {
+            buffer.skipBytes(frameLengthInt);
+            throw new CorruptedFrameException(
+                    "Adjusted frame length (" + frameLength + ") is less " +
+                    "than initialBytesToStrip: " + initialBytesToStrip);
+        }
+        buffer.skipBytes(initialBytesToStrip);
+
+        int readerIndex = buffer.readerIndex();
+        int actualFrameLength = frameLengthInt - initialBytesToStrip;
+        ChannelBuffer frame = extractFrame(buffer, readerIndex, actualFrameLength);
+        buffer.readerIndex(readerIndex + actualFrameLength);
+        return frame;
     }
 }

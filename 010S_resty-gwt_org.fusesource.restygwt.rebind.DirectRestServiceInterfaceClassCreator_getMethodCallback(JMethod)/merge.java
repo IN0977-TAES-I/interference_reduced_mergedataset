@@ -1,5 +1,5 @@
 class DirectRestServiceInterfaceClassCreator {
-    void getMethodCallback_JMethod_() {
+    private String getMethodCallback(JMethod method) {
         if (method.getReturnType().isPrimitive() != null) {
             JPrimitiveType primitiveType = method.getReturnType().isPrimitive();
             return "org.fusesource.restygwt.client.MethodCallback<" + primitiveType.getQualifiedBoxedSourceName() + "> callback";
@@ -9,5 +9,6 @@ class DirectRestServiceInterfaceClassCreator {
             return "org.fusesource.restygwt.client.OverlayCallback<" + returnType + "> callback";
         } else {
             return "org.fusesource.restygwt.client.MethodCallback<" + returnType + "> callback";
+        }
     }
 }

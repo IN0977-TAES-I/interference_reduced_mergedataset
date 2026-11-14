@@ -1,5 +1,17 @@
 class Parser {
-    void parse_Page_String_() {
+    static Logger logger;
+    CrawlConfig config;
+    HtmlParser htmlContentParser;
+    Net net;
+
+    public void parse(Page page, String contextURL) throws NotAllowedContentException, ParseException {
+        if (Util.hasBinaryContent(page.getContentType())) {
+            BinaryParseData parseData = new BinaryParseData();
+            if (config.isIncludeBinaryContentInCrawling()) {
+                if (config.isProcessBinaryContentInCrawling()) {
+                    try {
+                        parseData.setBinaryContent(page.getContentData());
+                    } catch (Exception e) {
                         if (config.isHaltOnError()) {
                             throw new ParseException(e);
                         } else {
@@ -42,5 +54,24 @@ class Parser {
                         new String(page.getContentData(), page.getContentCharset()));
                 }
                 parseData.setOutgoingUrls(net.extractUrls(parseData.getTextContent()));
+                page.setParseData(parseData);
+            } catch (Exception e) {
+                logger.error("{}, while parsing: {}", e.getMessage(), page.getWebURL().getURL());
+                throw new ParseException(e);
+            }
+        } else {
+
+            HtmlParseData parsedData = this.htmlContentParser.parse(page, contextURL);
+
+            if (page.getContentCharset() == null) {
+                page.setContentCharset(parsedData.getContentCharset());
+            }
+
+            LanguageIdentifier languageIdentifier = new LanguageIdentifier(parsedData.getText());
+            page.setLanguage(languageIdentifier.getLanguage());
+
+            page.setParseData(parsedData);
+
+        }
     }
 }

@@ -1,5 +1,53 @@
 class LengthFieldBasedFrameDecoder {
-    void decode_ChannelHandlerContext__Channel__ChannelBuffer_() {
+    int maxFrameLength;
+    int lengthFieldOffset;
+    int lengthFieldLength;
+    int lengthFieldEndOffset;
+    int lengthAdjustment;
+    int initialBytesToStrip;
+    boolean discardingTooLongFrame;
+    long tooLongFrameLength;
+    long bytesToDiscard;
+
+    @Override
+    protected Object decode(
+            ChannelHandlerContext ctx, Channel channel, ChannelBuffer buffer) throws Exception {
+
+        if (discardingTooLongFrame) {
+            long bytesToDiscard = this.bytesToDiscard;
+            int localBytesToDiscard = (int) Math.min(bytesToDiscard, buffer.readableBytes());
+            buffer.skipBytes(localBytesToDiscard);
+            bytesToDiscard -= localBytesToDiscard;
+            this.bytesToDiscard = bytesToDiscard;
+            failIfNecessary(ctx);
+            return null;
+        }
+
+        if (buffer.readableBytes() < lengthFieldEndOffset) {
+            return null;
+        }
+
+        int actualLengthFieldOffset = buffer.readerIndex() + lengthFieldOffset;
+        long frameLength;
+        switch (lengthFieldLength) {
+        case 1:
+            frameLength = buffer.getUnsignedByte(actualLengthFieldOffset);
+            break;
+        case 2:
+            frameLength = buffer.getUnsignedShort(actualLengthFieldOffset);
+            break;
+        case 3:
+            frameLength = buffer.getUnsignedMedium(actualLengthFieldOffset);
+            break;
+        case 4:
+            frameLength = buffer.getUnsignedInt(actualLengthFieldOffset);
+            break;
+        case 8:
+            frameLength = buffer.getLong(actualLengthFieldOffset);
+            break;
+        default:
+            throw new Error("should not reach here");
+        }
 
         if (frameLength < 0) {
             buffer.skipBytes(lengthFieldEndOffset);
@@ -42,9 +90,5 @@ class LengthFieldBasedFrameDecoder {
         ChannelBuffer frame = extractFrame(buffer, readerIndex, actualFrameLength);
         buffer.readerIndex(readerIndex + actualFrameLength);
         return frame;
-    }
-
-    private void failIfNecessary(ChannelHandlerContext ctx) {
-        if (bytesToDiscard == 0) {
     }
 }

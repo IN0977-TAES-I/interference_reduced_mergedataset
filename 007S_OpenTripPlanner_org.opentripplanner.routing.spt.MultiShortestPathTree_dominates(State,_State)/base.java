@@ -1,26 +1,27 @@
-
-
-
-
 class MultiShortestPathTree {
-    void dominates_State__State_() {
+    public static boolean dominates(State thisState, State other) {
+        if (other.weight == 0) {
+            return false;
         }
-        return ret;
-    }
+        if (thisState.isBikeRenting() != other.isBikeRenting())
+            return false;
+        if (thisState.isCarParked() != other.isCarParked())
+            return false;
 
-    @Override
-    public List<State> getStates(Vertex dest) {
-        return stateSets.get(dest);
-    }
+        if (thisState.backEdge != other.getBackEdge() && ((thisState.backEdge instanceof StreetEdge)
+                && (!((StreetEdge) thisState.backEdge).getTurnRestrictions().isEmpty())))
+            return false;
 
-    @Override
-    public int getVertexCount() {
-        return stateSets.keySet().size();
-    }
+        if (thisState.routeSequenceSubset(other)) {
+            return thisState.weight <= other.weight &&
+            		thisState.getElapsedTimeSeconds() <= other.getElapsedTimeSeconds();
+        }
 
+        boolean walkDistanceBetter = thisState.walkDistance <= other.getWalkDistance() * 1.05;
+        double weightRatio = thisState.weight / other.weight;
+        boolean weightBetter = (weightRatio < 1.02 && thisState.weight - other.weight < 30);
+        boolean timeBetter = thisState.getElapsedTimeSeconds() - other.getElapsedTimeSeconds() <= 30;
 
-    @Override
-    public boolean visit(State state) {
-        boolean ret = false;
+        return walkDistanceBetter && weightBetter && timeBetter;
     }
 }

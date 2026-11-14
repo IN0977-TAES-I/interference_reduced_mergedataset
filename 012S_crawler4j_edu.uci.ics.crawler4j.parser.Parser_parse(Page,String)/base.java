@@ -1,5 +1,30 @@
 class Parser {
-    void parse_Page_String_() {
+    static Logger logger;
+    CrawlConfig config;
+    HtmlParser htmlContentParser;
+
+    public void parse(Page page, String contextURL)
+        throws NotAllowedContentException, ParseException {
+        if (Util.hasBinaryContent(page.getContentType())) {
+            BinaryParseData parseData = new BinaryParseData();
+            if (config.isIncludeBinaryContentInCrawling()) {
+                if (config.isProcessBinaryContentInCrawling()) {
+                    parseData.setBinaryContent(page.getContentData());
+                } else {
+                    parseData.setHtml("<html></html>");
+                }
+                page.setParseData(parseData);
+                if (parseData.getHtml() == null) {
+                    throw new ParseException();
+                }
+                parseData.setOutgoingUrls(Net.extractUrls(parseData.getHtml()));
+            } else {
+                throw new NotAllowedContentException();
+            }
+        } else if (Util.hasPlainTextContent(page.getContentType())) {
+            try {
+                TextParseData parseData = new TextParseData();
+                if (page.getContentCharset() == null) {
                     parseData.setTextContent(new String(page.getContentData()));
                 } else {
                     parseData.setTextContent(
@@ -25,7 +50,5 @@ class Parser {
             page.setParseData(parsedData);
 
         }
-    }
-}
     }
 }

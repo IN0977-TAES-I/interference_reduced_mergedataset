@@ -1,33 +1,39 @@
-
-
-
-
 class MultiShortestPathTree {
-    void dominates_State__State_() {
+    static double WALK_DIST_EPSILON;
+    static double WEIGHT_EPSILON;
+    static int WEIGHT_DIFF_MARGIN;
+    static double TIME_EPSILON;
+    static int TIME_DIFF_MARGIN;
 
-	}
-
-	@Override
-    public State getState(Vertex dest) {
-        Collection<State> states = stateSets.get(dest);
-        if (states == null)
-            return null;
-        State ret = null;
-        for (State s : states) {
-            if ((ret == null || s.betterThan(ret)) && s.isFinal() && s.allPathParsersAccept()) {
-                ret = s;
-            }
+    public static boolean dominates(State thisState, State other) {
+        if (other.weight == 0) {
+            return false;
         }
-        return ret;
-    }
+        if (thisState.isBikeRenting() != other.isBikeRenting())
+            return false;
+        if (thisState.isCarParked() != other.isCarParked())
+            return false;
 
-    @Override
-    public List<State> getStates(Vertex dest) {
-        return stateSets.get(dest);
-    }
+        if (thisState.backEdge != other.getBackEdge() && ((thisState.backEdge instanceof StreetEdge)
+                && (!((StreetEdge) thisState.backEdge).getTurnRestrictions().isEmpty())))
+            return false;
 
-    @Override
-    public int getVertexCount() {
-        return stateSets.keySet().size();
-    }
+        if (thisState.routeSequenceSubset(other)) {
+            return thisState.weight <= other.weight &&
+            		thisState.getElapsedTimeSeconds() <= other.getElapsedTimeSeconds();
+        }
 
+
+        boolean walkDistanceIsHopeful = thisState.walkDistance / other.getWalkDistance() < 1+WALK_DIST_EPSILON;
+
+        double weightRatio = thisState.weight / other.weight;
+        boolean weightIsHopeful = (weightRatio < 1+WEIGHT_EPSILON && thisState.weight - other.weight < WEIGHT_DIFF_MARGIN);
+
+        double t1 = (double)thisState.getElapsedTimeSeconds();
+        double t2 = (double)other.getElapsedTimeSeconds();
+        double timeRatio = t1/t2;
+        boolean timeIsHopeful = (timeRatio < 1+TIME_EPSILON) && (t1 - t2 <= TIME_DIFF_MARGIN);
+
+        return walkDistanceIsHopeful && weightIsHopeful && timeIsHopeful;
+    }
+}

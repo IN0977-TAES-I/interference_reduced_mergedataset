@@ -1,9 +1,12 @@
 class TextNode {
-    void outerHtmlHead_StringBuilder__int__Document_OutputSettings_() {
+    void outerHtmlHead(StringBuilder accum, int depth, Document.OutputSettings out) {
+        String html = Entities.escape(getWholeText(), out);
         if (out.prettyPrint() && parent() instanceof Element && !((Element) parent()).preserveWhitespace()) {
             html = normaliseWhitespace(html);
         }
 
         if (out.prettyPrint() && siblingIndex() == 0 && parentNode instanceof Element && ((Element) parentNode).tag().formatAsBlock() && !isBlank())
+            indent(accum, depth, out);
+        accum.append(html);
     }
 }

@@ -1,5 +1,18 @@
 class MultiShortestPathTree {
-    void dominates_State__State_() {
+    static double WALK_DIST_EPSILON;
+    static double WEIGHT_EPSILON;
+    static int WEIGHT_DIFF_MARGIN;
+    static double TIME_EPSILON;
+    static int TIME_DIFF_MARGIN;
+
+    public static boolean dominates(State thisState, State other) {
+        if (other.weight == 0) {
+            return false;
+        }
+        if (thisState.isBikeRenting() != other.isBikeRenting())
+            return false;
+        if (thisState.isCarParked() != other.isCarParked())
+            return false;
         if (thisState.isBikeParked() != other.isBikeParked())
             return false;
 

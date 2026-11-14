@@ -1,18 +1,26 @@
 class Slurper {
-    void assignCollections__() {
+    static ESLogger logger;
+    MongoDBRiverDefinition definition;
+    Mongo mongo;
+    DB slurpedDb;
+    DB oplogDb;
+    DBCollection oplogCollection;
+    DBCollection oplogRefsCollection;
+
+    protected boolean assignCollections() {
     	DB adminDb;
     	if(!definition.getMongoAdminAuthDatabase().isEmpty()) {
-	    	adminDb = mongo.getDB(definition.getMongoAdminAuthDatabase());
+    adminDb = mongo.getDB(definition.getMongoAdminAuthDatabase());
     	} else {
-	    	adminDb = mongo.getDB(MongoDBRiver.MONGODB_ADMIN_DATABASE);
+    adminDb = mongo.getDB(MongoDBRiver.MONGODB_ADMIN_DATABASE);
     	}
 
     	if(!definition.getMongoLocalAuthDatabase().isEmpty()) {
     		logger.info("Local DB auth against "+definition.getMongoLocalAuthDatabase()+" user: "+definition.getMongoLocalUser());
-	    	oplogDb = mongo.getDB(definition.getMongoLocalAuthDatabase());
+    oplogDb = mongo.getDB(definition.getMongoLocalAuthDatabase());
     	} else {
     		logger.info("Local DB auth against local user: "+definition.getMongoLocalUser());
-	    	oplogDb = mongo.getDB(MongoDBRiver.MONGODB_LOCAL_DATABASE);
+    oplogDb = mongo.getDB(MongoDBRiver.MONGODB_LOCAL_DATABASE);
     	}
 
         if (!definition.getMongoAdminUser().isEmpty() && !definition.getMongoAdminPassword().isEmpty()) {
@@ -44,5 +52,13 @@ class Slurper {
         }
         oplogCollection = oplogDb.getCollection(MongoDBRiver.OPLOG_COLLECTION);
         oplogRefsCollection = oplogDb.getCollection(MongoDBRiver.OPLOG_REFS_COLLECTION);
+
+        slurpedDb = mongo.getDB(definition.getMongoDb());
+        if (!definition.getMongoAdminUser().isEmpty() && !definition.getMongoAdminPassword().isEmpty() && adminDb.isAuthenticated()) {
+            slurpedDb = adminDb.getMongo().getDB(definition.getMongoDb());
+        }
+
+
+        return true;
     }
 }

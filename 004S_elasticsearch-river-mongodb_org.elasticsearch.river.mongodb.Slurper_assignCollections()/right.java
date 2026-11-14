@@ -1,5 +1,13 @@
 class Slurper {
-    void assignCollections__() {
+    static ESLogger logger;
+    MongoDBRiverDefinition definition;
+    Mongo mongo;
+    DB slurpedDb;
+    DB oplogDb;
+    DBCollection oplogCollection;
+    DBCollection oplogRefsCollection;
+
+    protected boolean assignCollections() {
         DB adminDb = mongo.getDB(MongoDBRiver.MONGODB_ADMIN_DATABASE);
         oplogDb = mongo.getDB(MongoDBRiver.MONGODB_LOCAL_DATABASE);
 
@@ -37,5 +45,7 @@ class Slurper {
             slurpedDb = adminDb.getMongo().getDB(definition.getMongoDb());
         }
 
+
+        return true;
     }
 }
