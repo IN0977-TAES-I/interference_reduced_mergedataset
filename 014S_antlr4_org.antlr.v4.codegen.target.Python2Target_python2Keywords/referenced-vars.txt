@@ -1,0 +1,29 @@
+# class name : org.antlr.v4.codegen.target.Python2Target
+# method name: python2Keywords
+# variables referenced in the affected region:
+
+# per-line detail:
+left:source:53	
+left:region:54	
+left:region:55	
+left:region:56	
+left:region:57	
+left:region:58	
+left:region:59	
+left:region:60	
+left:region:61	
+left:region:62	
+left:region:63	
+left:sink:64	
+right:sink:53	
+right:region:54	
+right:region:55	
+right:region:56	
+right:region:57	
+right:region:58	
+right:region:59	
+right:region:60	
+right:region:61	
+right:region:62	
+right:region:63	
+right:source:64	

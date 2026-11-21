@@ -1,0 +1,64 @@
+# scenario   : 014S
+# project    : antlr4
+# class name : org.antlr.v4.codegen.target.Python2Target
+# method name: python2Keywords
+# side       : left (left-right-lines.csv)
+source@org.antlr.v4.codegen.target.Python2Target.python2Keywords:53:		"delattr", "dict", "dir", "divmod",
+region@org.antlr.v4.codegen.target.Python2Target.python2Keywords:54:		"enumerate", "eval", "execfile",
+region@org.antlr.v4.codegen.target.Python2Target.python2Keywords:55:		"file", "filter", "float", "format", "frozenset",
+region@org.antlr.v4.codegen.target.Python2Target.python2Keywords:56:		"getattr", "globals",
+region@org.antlr.v4.codegen.target.Python2Target.python2Keywords:57:		"hasattr", "hash", "help", "hex",
+region@org.antlr.v4.codegen.target.Python2Target.python2Keywords:58:		"id", "input", "int", "intern", "isinstance", "issubclass", "iter",
+region@org.antlr.v4.codegen.target.Python2Target.python2Keywords:59:		"len", "list", "locals",
+region@org.antlr.v4.codegen.target.Python2Target.python2Keywords:60:		"map", "max", "min", "next",
+region@org.antlr.v4.codegen.target.Python2Target.python2Keywords:61:		"memoryview",
+region@org.antlr.v4.codegen.target.Python2Target.python2Keywords:62:		"object", "oct", "open", "ord",
+region@org.antlr.v4.codegen.target.Python2Target.python2Keywords:63:		"pow", "print", "property",
+sink@org.antlr.v4.codegen.target.Python2Target.python2Keywords:64:		"range", "raw_input", "reduce", "reload", "repr", "return", "reversed", "round",
+
+# same region in merge.java (scenario update):
+merge:53:		"del", "delattr", "dict", "dir", "divmod",
+merge:54:		"enumerate", "eval", "execfile",
+merge:55:		"file", "filter", "float", "format", "frozenset",
+merge:56:		"getattr", "globals",
+merge:57:		"hasattr", "hash", "help", "hex",
+merge:58:		"id", "input", "int", "intern", "isinstance", "issubclass", "iter",
+merge:59:		"len", "list", "locals",
+merge:60:		"map", "max", "min", "next",
+merge:61:		"memoryview",
+merge:62:		"object", "oct", "open", "ord",
+merge:63:		"pow", "print", "property",
+merge:64:		"range", "raw_input", "reduce", "reload", "repr", "return", "reversed", "round",
+
+# scenario   : 014S
+# project    : antlr4
+# class name : org.antlr.v4.codegen.target.Python2Target
+# method name: python2Keywords
+# side       : right (right-left-lines.csv)
+sink@org.antlr.v4.codegen.target.Python2Target.python2Keywords:53:		"del", "delattr", "dict", "dir", "divmod",
+region@org.antlr.v4.codegen.target.Python2Target.python2Keywords:54:		"enumerate", "eval", "execfile",
+region@org.antlr.v4.codegen.target.Python2Target.python2Keywords:55:		"file", "filter", "float", "format", "frozenset",
+region@org.antlr.v4.codegen.target.Python2Target.python2Keywords:56:		"getattr", "globals",
+region@org.antlr.v4.codegen.target.Python2Target.python2Keywords:57:		"hasattr", "hash", "help", "hex",
+region@org.antlr.v4.codegen.target.Python2Target.python2Keywords:58:		"id", "input", "int", "intern", "isinstance", "issubclass", "iter",
+region@org.antlr.v4.codegen.target.Python2Target.python2Keywords:59:		"len", "list", "locals",
+region@org.antlr.v4.codegen.target.Python2Target.python2Keywords:60:		"map", "max", "min", "next",
+region@org.antlr.v4.codegen.target.Python2Target.python2Keywords:61:		"memoryview",
+region@org.antlr.v4.codegen.target.Python2Target.python2Keywords:62:		"object", "oct", "open", "ord",
+region@org.antlr.v4.codegen.target.Python2Target.python2Keywords:63:		"pow", "print", "property",
+source@org.antlr.v4.codegen.target.Python2Target.python2Keywords:64:		"range", "raw_input", "reduce", "reload", "repr", "reversed", "round",
+
+# same region in merge.java (scenario update):
+merge:53:		"del", "delattr", "dict", "dir", "divmod",
+merge:54:		"enumerate", "eval", "execfile",
+merge:55:		"file", "filter", "float", "format", "frozenset",
+merge:56:		"getattr", "globals",
+merge:57:		"hasattr", "hash", "help", "hex",
+merge:58:		"id", "input", "int", "intern", "isinstance", "issubclass", "iter",
+merge:59:		"len", "list", "locals",
+merge:60:		"map", "max", "min", "next",
+merge:61:		"memoryview",
+merge:62:		"object", "oct", "open", "ord",
+merge:63:		"pow", "print", "property",
+merge:64:		"range", "raw_input", "reduce", "reload", "repr", "return", "reversed", "round",
+

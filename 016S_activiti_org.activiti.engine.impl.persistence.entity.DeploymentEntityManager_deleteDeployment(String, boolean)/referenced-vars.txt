@@ -1,0 +1,37 @@
+# class name : org.activiti.engine.impl.persistence.entity.DeploymentEntityManager
+# method name: deleteDeployment(String, boolean)
+# variables referenced in the affected region:
+ActivitiEventBuilderexternal/inherited    roles=sink
+ActivitiEventTypeexternal/inherited    roles=sink
+Context         external/inherited    roles=sink
+Job             external/inherited    roles=region
+JobEntity       external/inherited    roles=region
+job             external/inherited    roles=region,sink
+nrOfProcessDefinitionsWithSameKeydeclared-in-file      roles=region
+nrOfVersions    declared-in-file      roles=region
+processDefinitionexternal/inherited    roles=sink,source
+timerStartJobs  declared-in-file      roles=region
+
+# per-line detail:
+left:sink:107	
+left:region:108	
+left:region:109	
+left:region:110	nrOfVersions,nrOfProcessDefinitionsWithSameKey
+left:region:111	Job,job,timerStartJobs
+left:region:112	JobEntity,job
+left:region:113	
+left:source:114	
+left:source:115	
+left:source:116	
+left:source:117	
+right:source:107	processDefinition,processDefinition
+right:region:108	nrOfProcessDefinitionsWithSameKey
+right:region:109	
+right:region:110	
+right:region:111	
+right:region:112	nrOfVersions,nrOfProcessDefinitionsWithSameKey
+right:region:113	Job,job,timerStartJobs
+right:sink:114	Context
+right:sink:115	Context
+right:sink:116	ActivitiEventBuilder,ActivitiEventType,job,processDefinition
+right:sink:117	

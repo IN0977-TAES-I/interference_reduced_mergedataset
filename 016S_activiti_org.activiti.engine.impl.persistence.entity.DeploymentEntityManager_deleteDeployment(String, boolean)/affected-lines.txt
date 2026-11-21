@@ -1,0 +1,60 @@
+# scenario   : 016S
+# project    : activiti
+# class name : org.activiti.engine.impl.persistence.entity.DeploymentEntityManager
+# method name: deleteDeployment(String, boolean)
+# side       : left (left-right-lines.csv)
+sink@org.activiti.engine.impl.persistence.entity.DeploymentEntityManager.deleteDeployment(String, boolean):107:          }
+region@org.activiti.engine.impl.persistence.entity.DeploymentEntityManager.deleteDeployment(String, boolean):108:        }
+region@org.activiti.engine.impl.persistence.entity.DeploymentEntityManager.deleteDeployment(String, boolean):109:        
+region@org.activiti.engine.impl.persistence.entity.DeploymentEntityManager.deleteDeployment(String, boolean):110:        if (nrOfVersions - nrOfProcessDefinitionsWithSameKey <= 1) {
+region@org.activiti.engine.impl.persistence.entity.DeploymentEntityManager.deleteDeployment(String, boolean):111:          for (Job job : timerStartJobs) {
+region@org.activiti.engine.impl.persistence.entity.DeploymentEntityManager.deleteDeployment(String, boolean):112:            ((JobEntity)job).delete();        
+region@org.activiti.engine.impl.persistence.entity.DeploymentEntityManager.deleteDeployment(String, boolean):113:          }
+source@org.activiti.engine.impl.persistence.entity.DeploymentEntityManager.deleteDeployment(String, boolean):114:        }
+source@org.activiti.engine.impl.persistence.entity.DeploymentEntityManager.deleteDeployment(String, boolean):115:      }
+source@org.activiti.engine.impl.persistence.entity.DeploymentEntityManager.deleteDeployment(String, boolean):116:      
+source@org.activiti.engine.impl.persistence.entity.DeploymentEntityManager.deleteDeployment(String, boolean):117:      // remove message event subscriptions:
+
+# same region in merge.java (scenario update):
+merge:107:          if (!p.getId().equals(processDefinition.getId()) && p.getKey().equals(processDefinition.getKey())) {
+merge:108:            nrOfProcessDefinitionsWithSameKey++;
+merge:109:          }
+merge:110:        }
+merge:111:        
+merge:112:        if (nrOfVersions - nrOfProcessDefinitionsWithSameKey <= 1) {
+merge:113:          for (Job job : timerStartJobs) {
+merge:114:            if (Context.getProcessEngineConfiguration().getEventDispatcher().isEnabled()) {
+merge:115:              Context.getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(
+merge:116:                ActivitiEventBuilder.createEntityEvent(ActivitiEventType.JOB_CANCELED, job, null, null, processDefinition.getId()));
+merge:117:            }
+
+# scenario   : 016S
+# project    : activiti
+# class name : org.activiti.engine.impl.persistence.entity.DeploymentEntityManager
+# method name: deleteDeployment(String, boolean)
+# side       : right (right-left-lines.csv)
+source@org.activiti.engine.impl.persistence.entity.DeploymentEntityManager.deleteDeployment(String, boolean):107:          if (!p.getId().equals(processDefinition) && p.getKey().equals(processDefinition)) {
+region@org.activiti.engine.impl.persistence.entity.DeploymentEntityManager.deleteDeployment(String, boolean):108:            nrOfProcessDefinitionsWithSameKey++;
+region@org.activiti.engine.impl.persistence.entity.DeploymentEntityManager.deleteDeployment(String, boolean):109:          }
+region@org.activiti.engine.impl.persistence.entity.DeploymentEntityManager.deleteDeployment(String, boolean):110:        }
+region@org.activiti.engine.impl.persistence.entity.DeploymentEntityManager.deleteDeployment(String, boolean):111:        
+region@org.activiti.engine.impl.persistence.entity.DeploymentEntityManager.deleteDeployment(String, boolean):112:        if (nrOfVersions - nrOfProcessDefinitionsWithSameKey <= 1) {
+region@org.activiti.engine.impl.persistence.entity.DeploymentEntityManager.deleteDeployment(String, boolean):113:          for (Job job : timerStartJobs) {
+sink@org.activiti.engine.impl.persistence.entity.DeploymentEntityManager.deleteDeployment(String, boolean):114:            if (Context.getProcessEngineConfiguration().getEventDispatcher().isEnabled()) {
+sink@org.activiti.engine.impl.persistence.entity.DeploymentEntityManager.deleteDeployment(String, boolean):115:              Context.getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(
+sink@org.activiti.engine.impl.persistence.entity.DeploymentEntityManager.deleteDeployment(String, boolean):116:                ActivitiEventBuilder.createEntityEvent(ActivitiEventType.JOB_CANCELED, job, null, null, processDefinition.getId()));
+sink@org.activiti.engine.impl.persistence.entity.DeploymentEntityManager.deleteDeployment(String, boolean):117:            }
+
+# same region in merge.java (scenario update):
+merge:107:          if (!p.getId().equals(processDefinition.getId()) && p.getKey().equals(processDefinition.getKey())) {
+merge:108:            nrOfProcessDefinitionsWithSameKey++;
+merge:109:          }
+merge:110:        }
+merge:111:        
+merge:112:        if (nrOfVersions - nrOfProcessDefinitionsWithSameKey <= 1) {
+merge:113:          for (Job job : timerStartJobs) {
+merge:114:            if (Context.getProcessEngineConfiguration().getEventDispatcher().isEnabled()) {
+merge:115:              Context.getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(
+merge:116:                ActivitiEventBuilder.createEntityEvent(ActivitiEventType.JOB_CANCELED, job, null, null, processDefinition.getId()));
+merge:117:            }
+

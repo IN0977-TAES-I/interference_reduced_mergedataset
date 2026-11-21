@@ -1,0 +1,48 @@
+# scenario   : 017S
+# project    : storm
+# class name : org.apache.storm.kafka.spout.KafkaSpoutConfig
+# method name: toString()
+# side       : left (left-right-lines.csv)
+source@org.apache.storm.kafka.spout.KafkaSpoutConfig.toString():515:
+source@org.apache.storm.kafka.spout.KafkaSpoutConfig.toString():516:
+region@org.apache.storm.kafka.spout.KafkaSpoutConfig.toString():517:
+region@org.apache.storm.kafka.spout.KafkaSpoutConfig.toString():518:
+region@org.apache.storm.kafka.spout.KafkaSpoutConfig.toString():519:
+region@org.apache.storm.kafka.spout.KafkaSpoutConfig.toString():520:
+source@org.apache.storm.kafka.spout.KafkaSpoutConfig.toString():521:
+source@org.apache.storm.kafka.spout.KafkaSpoutConfig.toString():522:
+
+# same region in merge.java (scenario update):
+merge:515:                ", key=" + getKeyDeserializer() +
+merge:516:                ", value=" + getValueDeserializer() +
+merge:517:                ", pollTimeoutMs=" + pollTimeoutMs +
+merge:518:                ", offsetCommitPeriodMs=" + offsetCommitPeriodMs +
+merge:519:                ", maxUncommittedOffsets=" + maxUncommittedOffsets +
+merge:520:                ", firstPollOffsetStrategy=" + firstPollOffsetStrategy +
+merge:521:                ", subscription=" + subscription +
+merge:522:                ", translator=" + translator +
+
+# scenario   : 017S
+# project    : storm
+# class name : org.apache.storm.kafka.spout.KafkaSpoutConfig
+# method name: toString()
+# side       : right (right-left-lines.csv)
+sink@org.apache.storm.kafka.spout.KafkaSpoutConfig.toString():515:
+sink@org.apache.storm.kafka.spout.KafkaSpoutConfig.toString():516:    public FirstPollOffsetStrategy getFirstPollOffsetStrategy() {
+region@org.apache.storm.kafka.spout.KafkaSpoutConfig.toString():517:        return firstPollOffsetStrategy;
+region@org.apache.storm.kafka.spout.KafkaSpoutConfig.toString():518:    }
+region@org.apache.storm.kafka.spout.KafkaSpoutConfig.toString():519:
+region@org.apache.storm.kafka.spout.KafkaSpoutConfig.toString():520:    public int getMaxUncommittedOffsets() {
+sink@org.apache.storm.kafka.spout.KafkaSpoutConfig.toString():521:        return maxUncommittedOffsets;
+sink@org.apache.storm.kafka.spout.KafkaSpoutConfig.toString():522:    }
+
+# same region in merge.java (scenario update):
+merge:515:                ", key=" + getKeyDeserializer() +
+merge:516:                ", value=" + getValueDeserializer() +
+merge:517:                ", pollTimeoutMs=" + pollTimeoutMs +
+merge:518:                ", offsetCommitPeriodMs=" + offsetCommitPeriodMs +
+merge:519:                ", maxUncommittedOffsets=" + maxUncommittedOffsets +
+merge:520:                ", firstPollOffsetStrategy=" + firstPollOffsetStrategy +
+merge:521:                ", subscription=" + subscription +
+merge:522:                ", translator=" + translator +
+

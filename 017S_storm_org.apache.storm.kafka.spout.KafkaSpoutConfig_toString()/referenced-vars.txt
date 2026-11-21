@@ -1,0 +1,24 @@
+# class name : org.apache.storm.kafka.spout.KafkaSpoutConfig
+# method name: toString()
+# variables referenced in the affected region:
+FirstPollOffsetStrategyexternal/inherited    roles=sink
+firstPollOffsetStrategydeclared-in-file      roles=region
+maxUncommittedOffsetsdeclared-in-file      roles=sink
+
+# per-line detail:
+left:source:515	
+left:source:516	
+left:region:517	
+left:region:518	
+left:region:519	
+left:region:520	
+left:source:521	
+left:source:522	
+right:sink:515	
+right:sink:516	FirstPollOffsetStrategy
+right:region:517	firstPollOffsetStrategy
+right:region:518	
+right:region:519	
+right:region:520	
+right:sink:521	maxUncommittedOffsets
+right:sink:522	
